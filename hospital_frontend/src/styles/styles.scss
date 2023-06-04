@@ -1,0 +1,718 @@
+$main-color: rgb(0, 159, 154);
+// $main-color: rgb(4, 89, 174);
+// $main-color: rgb(4, 50, 96);
+$bg-color: rgb(239, 239, 239);
+// $bg-color: rgb(0, 0, 0);
+
+body{
+    background-color: $bg-color;
+    width: 100%;
+    scroll-behavior: smooth;
+    margin: 0;
+    overflow-x: hidden;
+    min-width: 200px;
+}
+
+body::-webkit-scrollbar {
+    width: 5px;
+}
+
+body::-webkit-scrollbar-thumb {
+    height: 50px;
+    border-radius: 10px;
+    background-color: rgb(0, 117, 80);
+}
+
+.navbar{
+    display: flex;
+    width: 100%;
+    top: 0;
+    height: 50px;
+    background-color: $main-color;
+    box-shadow: -1px 1px 7px 0px black;
+    position: fixed;
+    z-index: 2;
+
+    ul {
+        display: flex;
+        gap: 45px;
+        list-style-type: none;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+        li{
+            color: $bg-color;
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: $bg-color;
+        }
+    }
+}
+
+.pageTitle {
+    margin-top: 150px;
+    color: rgb(48, 50, 51);
+    font-family: 'Courier New', Courier, monospace;
+    text-align: center;
+}
+
+.registerDiv{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    width: 40%;
+    min-width: 190px;
+
+    &__input {
+        width: 100%;
+        height: 40px;
+        border-radius: 10px;
+        border: none;
+        font-size: 14px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        background-color: $bg-color;
+        box-shadow: inset 0px 0px 7px 1px grey;
+        margin-bottom: 10px;
+        text-indent: 10px;
+        outline: none;
+
+        &:focus{
+            box-shadow: inset 0px 0px 4px 1px $main-color;
+        }
+
+    }
+
+    &__select {
+        @extend .registerDiv__input;
+    }
+
+    
+    &__registerBtn{
+        width: 200px;
+        height: 35px;
+        display: block;
+        margin-bottom: 30px;
+        margin-left: auto;
+        color: $bg-color;
+        margin-right: auto;
+        border-radius: 3px;
+        font-size: 15px;
+        box-shadow: 1px 1px 7px -1px black;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        cursor: pointer;
+        background-color: $main-color;
+        border: none;
+    }
+
+    .messagePrg{
+        text-align: center;
+        font-size: 14px;
+        font-family: Arial, Helvetica, sans-serif;
+        margin-bottom: 20px;
+        color: rgb(255, 17, 17);
+    }
+}
+
+.navbarLowOpacity{
+    @extend .navbar;
+    background-color:rgba(0, 159, 154, 0.4);
+
+}
+
+.loginPageTitle{
+    @extend .pageTitle;
+    margin-top: 140px
+}
+
+.loginDiv{
+    @extend .registerDiv;
+    margin-top: 80px;
+    
+    &__input{
+        @extend .registerDiv__input;
+        margin-bottom: 30px;
+    }
+
+    &__loginBtn{
+        @extend .registerDiv__registerBtn;
+        margin-top: -10px;
+    }
+}
+
+.coverAllLogoutForm{
+    position: fixed;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    z-index: 3;
+    background-color: rgba(211, 211, 211, .8);
+
+.logoutFormContainer{
+    width: 50%;
+    top: 35%;
+    left: 25%;
+    position: fixed;
+    height: 140px;
+    color: $main-color;
+    text-align: center;
+    border-radius: 10px;
+    background-color: $bg-color;
+    box-shadow: inset 0px 0px 7px 1px grey;
+
+    &__btnLogout{
+        width: 100px;
+        margin-right: 10px;
+        border: 0.10px solid black;
+        margin-top: 15px;
+        background-color: rgb(211, 211, 211);
+        height: 25px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    &__btnCancelLogout{
+        @extend .logoutFormContainer__btnLogout;
+        margin-right: 0;
+    }
+    
+}
+.logoutFormContainerLeft{
+    @extend .logoutFormContainer;
+    left: 27.80%
+}
+}
+
+.profileDiv{
+    @extend .registerDiv;
+    margin-left: 33%; //
+    text-align: center;
+    margin-top: 50px;
+    transition: 0.50s ease-in-out;
+    color: rgb(74, 74, 74);
+
+    &__h2{
+        color: rgb(35, 35, 35);
+    }
+
+    &__input {
+        @extend .registerDiv__input;
+    }
+
+    &__changePasswordBtn {
+        @extend .registerDiv__registerBtn;
+        margin-top: 5px;
+        margin-bottom: 30px;
+    }
+    
+    &__deleteAccountDiv{
+        margin-bottom: 50px;
+    }
+
+    &__deleteWorningPrg{
+        color: rgb(255, 17, 17);
+        font-size: 17px;
+    }
+
+    &__deleteAccountBtn{
+        height: 28px;
+        width: 150px;
+        color: $bg-color;
+        cursor: pointer;
+        border: 0.20px solid black;
+        border-radius: 4px;
+        background-color: rgb(255, 17, 17);
+    }
+
+}
+
+.userInfoDiv{
+    display: block;
+    margin-left: 33%; 
+    margin-top: 110px;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 12px;
+    line-height: 30px;
+    width: 40%;
+    transition: 0.50s ease-in-out;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background: linear-gradient(0deg, $bg-color 0%, rgba(44, 161, 170, 1) 100%);
+    height: 250px;
+    border: none;
+}
+.coverAllDeleteAccount{
+    @extend .coverAllLogoutForm;
+
+.deleteAccountFormContainer{
+    @extend .logoutFormContainer;
+    height: 230px;
+    
+    &__passwordInput{
+        @extend .registerDiv__input;
+        margin-top: 15px;
+        width: 40%;
+        height: 33px;
+    }
+
+    &__deleteBtn{
+        @extend .logoutFormContainer__btnLogout;
+    }
+
+    &__cancelBtn{
+        @extend .logoutFormContainer__btnLogout;
+    }
+
+    }
+}
+.userInfoDivLeft {
+    @extend .userInfoDiv;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.profileDivLeft{
+    @extend .profileDiv;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.verticalNavbar{
+    top: 40px;
+    position: fixed;
+    left: 0;    
+    color: $bg-color;
+    font-size: 15px;
+    // text-align: center;
+    transition: 0.50s ease-in-out;
+    box-shadow: 2px 0px 7px 0px #000000;
+    background-color: $main-color;
+    width: 190px;
+    height: 100%;
+
+    // @for $i from 1 through 3 {
+        .navbardiv {
+            width: inherit;
+            user-select: none;
+            height: 45px;
+            // width: 190px;
+            // position: absolute;
+            // left: auto;
+            line-height: 45px;
+            transition: 0.50s;
+            cursor: pointer;
+            margin-left: -42px;
+        // }
+
+    }
+
+        .navbardiv:hover{
+            background-color: rgb(3, 179, 173);
+        }
+        
+    .divBottomLine {
+        margin-left: -41px;
+        height: 1px;
+        background-color: #bfbfbf;
+    }
+
+    ul {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+        li {
+            list-style-type: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: $bg-color;
+        }
+    }
+}
+
+.verticalNavbarHide{
+    @extend .verticalNavbar;
+    left: -222px;
+}
+
+.doctorInfoContainer{
+    display: flex;
+    width: 90%;
+    margin-left: 18%;
+    margin-top: 100px;
+    gap: 20px;
+    transition: 0.50s;
+    flex-wrap: wrap;
+    
+    &__div {
+        display: block;
+        width: 25%;
+        font-size: 15px;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        padding: 14px;
+        background-color: rgb(228, 228, 228);
+        border-radius: 15px;
+        box-shadow: 4px 3px 12px 3px rgb(129, 129, 129);
+        height: 150px;
+        color: rgb(61, 61, 61);
+        border: none;
+        transition: 0.60s;
+        text-decoration: none;
+    }
+    
+    &__div:hover {
+        background-color: rgb(255, 255, 255);
+    }
+
+}
+
+.doctorInfoContainerToLeft {
+    @extend .doctorInfoContainer;
+    margin-left: 6%;
+    width: 107.50%; 
+
+    &__div {
+        @extend .doctorInfoContainer__div;
+    }
+}
+.userInfoDivDoctor{
+    @extend .userInfoDiv;
+    background: linear-gradient(0deg, $bg-color 0%, rgb(0, 205, 201) 100%);
+}
+
+.userInfoDivDoctorLeft {
+    @extend .userInfoDivLeft;
+    background: linear-gradient(0deg, $bg-color 0%, rgb(0, 205, 201) 100%);}
+
+.appointementDiv {
+    width: 40%;
+    margin-left: 33.15%;
+    margin-bottom: 50px;
+    height: 30px;
+    display: flex;
+    
+
+    &__btnPrev {
+        width: 150px;
+        display: block;
+        height: 30px;
+        margin-right: auto;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    &__btnNext {
+        @extend .appointementDiv__btnPrev;
+        margin-left: auto;
+        margin-right: 0;
+    }
+
+}
+
+.errMessageDiv{
+    display: block;
+    margin-left: 45%;
+    padding: 5px;
+    text-align: center;
+    width: 250px;
+}
+
+.errMessageDivLeft{
+    @extend .errMessageDiv;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.appointementDivLeft{
+    @extend .appointementDiv;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.appointementTitlesDiv{
+    display: block;
+    width: 40%;
+    text-align: center;
+    margin-left: 33%;
+
+    // &__title {
+        
+    // }
+
+    // &__day {
+
+    // }
+}
+
+.appointementTitlesDivLeft{
+    @extend .appointementTitlesDiv;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.doctorsPageDiv{
+    display: flex;
+    width: 40%;
+    position: relative;
+    margin-left: 33.15%;
+    text-align: center;
+    line-height: 30px;
+    height: 350px;
+    // transition: 5s;
+    // border: 1px solid black;
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    $left-length: 0%;
+
+    &__div1 {
+            z-index: 1;
+            position: absolute;
+            width: 100%;
+            left: 0;
+        }
+
+    @for $i from 2 through 17 {
+        $left-length: $left-length + 99.92%;
+
+        &__div#{$i} {
+            z-index: 1;
+            position: absolute;
+            width: 100%;
+            left: $left-length;
+            
+        }
+    }
+
+    &__timeBtn {
+        width: 12%;
+        margin: 5px;
+        border: none;
+        height: 55px;
+        user-select: none;
+        border-radius: 8px;
+        box-shadow: inset 0px 0px 5px -1px black;
+        // background-color: #35b2ce;
+        cursor: pointer;
+        }
+}
+
+.doctorsPageDivLeft{
+    @extend .doctorsPageDiv;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.confirmDateBtn {
+    @extend .profileDiv__changePasswordBtn;
+    width: 200px;
+    height: 35px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    color: #000000;
+    display: block;
+    margin-left: 46.70%;
+    background-color: rgb(83, 228, 148);
+    // background-color: rgb(251, 186, 186);
+}
+
+.confirmDateBtnLeft {
+    @extend .confirmDateBtn;
+    margin-left: auto;
+    margin-right: auto
+}
+
+.confirmDatePassword{
+    @extend .registerDiv__input;
+    // margin-left: auto;
+    margin-left: 43.20%;
+    display: block;
+    // text-indent: 5px;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    box-shadow: inset 0px 0px 3px 1px grey;
+    // background-color: $bg-color;
+    width: 300px;
+    height: 37px;
+    // border-radius: 5px;
+    // margin-bottom: 20px;
+}
+.confirmDatePasswordLeft{
+    @extend .confirmDatePassword;
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+
+.myAppointementContainer{
+    @extend .doctorInfoContainer;
+    // margin-top: 50px;
+    transition: 1s;
+    &__myAppointementDiv{
+        transition: 2s;
+        // background: linear-gradient(90deg, rgba(52, 210, 255, 1) 0%, rgba(7, 118, 144, 1) 89%);
+        // background-color: rgba(2, 189, 190, 1);
+        background-color: #80c9c6;
+        cursor: pointer;
+        @extend .doctorInfoContainer__div;
+    }
+
+    &__myAppointementDiv:hover{
+        @extend .doctorInfoContainer__div;
+        background-color: #b9e2e0;
+        // animation-name: bgColorChange;
+        // animation-duration: 1s;
+    }
+}
+
+// @keyframes bgColorChange{
+//     0%{
+//             background-color: rgba(2, 189, 190, 1);
+//     }
+
+//     20%{
+//                 background-color: rgb(7, 212, 212);
+//     }
+
+//     40%{
+//             background-color: rgb(7, 226, 226);
+//     }
+//     60%{
+//             background-color: rgb(9, 233, 233);
+//     }
+
+//     80%{
+//                 background-color: rgb(9, 241, 241);
+//     }
+
+//     100%{
+//             background-color: rgb(18, 255, 255);
+//     }
+// }
+
+.myAppointementContainerLeft{
+    @extend .doctorInfoContainerToLeft;
+    // background-color: rgb(251, 186, 186)
+    // margin-top: 50px;
+}
+
+// extend "doctorsPageDiv": "doctorsPageDivLeft"
+
+
+.manageDoctorsPageDiv {
+    @extend .doctorsPageDiv;
+    margin-top: 150px;
+    width: 40%;
+    // background-color: #91d6e6
+}
+
+.manageDoctorsPageDivLeft {
+    @extend .doctorsPageDivLeft; 
+    margin-top: 150px;
+}
+
+.scheduleUpdateChoices{
+    width: 300px;
+    display: block;
+    margin-left: 47%
+}
+
+.confirmUpdateBtn {
+    @extend .confirmDateBtn;
+    margin-bottom: 30px;
+    background-color: #35b2ce;
+}
+
+.confirmUpdateBtnLeft{
+    @extend .confirmUpdateBtn;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.setDayChoicesDiv{
+    @extend .registerDiv__select;
+    display: block;
+    width: 40%;
+    margin-bottom: 25px;
+    margin-left: 33.15%;
+}
+
+.setDayChoicesDivLeft{
+    @extend .setDayChoicesDiv;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.selectAllBtn{
+    width: 120px;
+    height: 35px;
+    border-radius: 7px;
+    z-index: 1;
+    transition: 0.50s;
+    margin-left: auto;
+    margin-right: 30px;
+    display: block;
+    border: 0.40px solid black;
+    cursor: pointer;
+    color: $bg-color;
+    background-color: #289f9d;
+}
+.unSelectAllBtn{
+    @extend .selectAllBtn;
+    color: black;
+    background-color: #8cd1e0;
+}
+
+.prgInfo{
+    margin-left: 30%;
+    color: rgb(255, 17, 17);
+}
+.prgInfoLeft {
+    text-align: center;
+    color: rgb(255, 17, 17);
+}
+
+.MedHistoryContainerDiv{
+    @extend .profileDiv;
+    margin-top: 100px;
+    display: block;
+
+    &__input{
+        @extend .registerDiv__input;
+        padding-right: 15px;
+        // box-shadow: inset 0px 0px 5px 1px grey;
+    }
+
+    &__textarea{
+        @extend .registerDiv__input;
+        height: 350px;
+        padding: 10px;
+        min-width: 150px;
+        min-height: 200px;
+        max-height: max-content;
+        // max-width: 60%;
+        // text-indent: 10px;
+        // box-shadow: inset 0px 0px 5px 1px grey;
+    }
+}
+
+.MedHistoryContainerDivLeft{
+    @extend .MedHistoryContainerDiv;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.addMedHistoryBtn{
+    @extend .confirmDateBtn;
+    margin-left: 34%
+}
+
+.addMedHistoryBtnLeft{
+    @extend .confirmDateBtnLeft;
+}
