@@ -679,9 +679,17 @@ body::-webkit-scrollbar-thumb {
 }
 
 .MedHistoryContainerDiv{
-    @extend .profileDiv;
+    @extend .registerDiv;
     margin-top: 100px;
+    margin-left: 33%;
+    // width: 300px;
+    width: 40%;
+    height: 350px;
     display: block;
+    text-align: center;
+    // border: 1px solid black;
+    // margin-left: auto;
+    // margin-right: auto;
 
     &__input{
         @extend .registerDiv__input;
@@ -710,9 +718,43 @@ body::-webkit-scrollbar-thumb {
 
 .addMedHistoryBtn{
     @extend .confirmDateBtn;
-    margin-left: 34%
+    margin-left: 34%;
 }
 
 .addMedHistoryBtnLeft{
     @extend .confirmDateBtnLeft;
+}
+
+.medHistUpdateRequestBtn {
+    width: 120px;
+    height: 20px;
+    cursor: pointer;
+    border: 0.20px solid black;
+    border-radius: 3px;
+    background-color: #35b2ce;
+}
+
+.MyMedHistoryContainerDiv{
+    @extend .MedHistoryContainerDiv;
+    border: 1px solid black;
+    border-radius: 5px;
+    min-height: 100px;
+    height: fit-content;
+    padding: 10px;
+    // overflow-x: scroll;
+    text-align: left;
+    margin-bottom: 30px;
+    // overflow: auto;
+    color: #35b2ce;
+    &__prg {
+        word-wrap: break-word;
+        color: #555657;
+        font-family: monospace 'Courier New', Courier, monospace;
+        line-height: 25px;
+    }
+}
+
+.MyMedHistoryContainerDivLeft{
+    @extend .MedHistoryContainerDivLeft;
+    @extend .MyMedHistoryContainerDiv;
 }

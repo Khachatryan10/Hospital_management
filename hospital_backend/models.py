@@ -116,7 +116,7 @@ class Schedule(models.Model):
         }
 
 class MedicalHistory(models.Model):
-    patient_email = models.CharField(max_length=80)
+    patient_email = models.CharField(max_length=80, primary_key=True)
     doctor_email = models.CharField(max_length=80)
     doctor_name = models.CharField(max_length=64)
     doctor_last_name = models.CharField(max_length=100)
@@ -137,11 +137,28 @@ class MedicalHistory(models.Model):
             "medical_information": self.medical_information
         }
     
-    """
-    allergies,
-    surgeries,
-    medications,
-    past surgical history, 
-    familiy surgical history,
-    illnesses
-    """
+    # Whe ndoctor updates the med history delete notif as sent
+    
+class Notification(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    sender = models.CharField(max_length=80)
+    sender_name = models.CharField(max_length=64)
+    sender_last_name = models.CharField(max_length=100)
+    receiver = models.CharField(max_length=80)
+    content = models.CharField(max_length=500)
+    date = models.CharField(max_length=20)
+    time = models.CharField(max_length=8)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "sender": self.sender,
+            "sender_name": self.sender_name,
+            "sender_last_name": self.sender_last_name,
+            "receiver": self.receiver,
+            "content": self.content,
+            "date": self.date,
+            "time": self.time,
+        }
+
+

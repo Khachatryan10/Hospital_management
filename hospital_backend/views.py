@@ -1,4 +1,4 @@
-from .models import Schedule, MedicalHistory
+from .models import Schedule, MedicalHistory, Notification
 from django.shortcuts import render, HttpResponse
 from .models import User, Schedule
 from django.db import IntegrityError
@@ -409,7 +409,11 @@ def update_appointement(request):
             return HttpResponse("Wrong input",status=400)
 
     else:
-        return HttpResponse("This url is only POST requests")
+        return HttpResponse("This url is only for POST requests")
+
+
+def my_medical_history(request):
+    return render(request, "index.html")
 
 
 def add_medical_history_data(request):
@@ -421,16 +425,41 @@ def add_medical_history_data(request):
         birth_date = data.get("birthDate")
         med_info = data.get("medInfo")
 
+if not patient then don't let add medical history
+        # try: 
+        #     patient = User.objects.get(request, first_name=first_name, last_name=last_name, email=email)
+        #     # if patient.exists():
+        #     #     return HttpResponse(status=200)
+            
+        # except ValueError:
+        # # if patient.exists()
+        #     return HttpResponse(status=404)
+
         if not email or not first_name or not last_name or not birth_date or not med_info:
             return HttpResponse("Please fill all fields", status=400)
 
+        # if patient.exists():
+
+        
+        mh = MedicalHistory.objects.filter(
+            patient_name=first_name, patient_last_name=last_name, patient_email=email)
+
+        if mh.exists():
+            return HttpResponse("The patient already has a medical history, send a request to update it.", status=409)
+        
+        patient = User.objects.filter(email=email, first_name=first_name, last_name=last_name)
+        
+
         try:
-            med_history = MedicalHistory(
-                patient_email=email, doctor_email=request.user.email, doctor_name=request.user.first_name,
-                doctor_last_name=request.user.last_name, patient_name=first_name, patient_last_name=last_name, patient_birth_date=birth_date,
-                medical_information=med_info)
-            med_history.save()
-            return HttpResponse("Medical history is added", status=200)
+            if patient.exists():
+                med_history = MedicalHistory(
+                    patient_email=email, doctor_email=request.user.email, doctor_name=request.user.first_name,
+                    doctor_last_name=request.user.last_name, patient_name=first_name, patient_last_name=last_name, patient_birth_date=birth_date,
+                    medical_information=med_info)
+                med_history.save()
+                return HttpResponse("Medical history is added", status=200)
+            else:
+                return HttpResponse("No user found", status=404)
         except ValidationError:
             return HttpResponse("Failed to add medical history", status=403)
 
@@ -443,5 +472,46 @@ def add_medical_history(request):
 
 def get_medical_history_data(request):
     med_hostory_data = MedicalHistory.objects.all()
-    return JsonResponse([med_info.serialize() for med_info in med_hostory_data],safe=False)
-# [schedule.serialize() for schedule in schedules], safe=False
+    return JsonResponse([med_info.serialize() for med_info in med_hostory_data], safe=False)
+
+def get_my_medical_history(request):
+    med_history = MedicalHistory.objects.filter(patient_email=request.user.email)
+    return JsonResponse([data.serialize() for data in med_history], safe=False)
+
+def save_notification(request):
+    if request.method == "POST":
+        data = json.loads(request.body)
+        sender_email = data.get("sender")
+        sender_name = data.get("senderName") 
+        sender_last_name = data.get("senderLastName")  
+        receiver_email = data.get("receiver")
+        content = data.get("content")
+        date = data.get("date")
+        time = data.get("time")
+
+        if not sender_email or not sender_name or not sender_last_name or not receiver_email or not content or not data or not time:
+            return HttpResponse("missing information", status=404)
+
+        receiver_user = User.objects.filter(
+            email=receiver_email)
+        
+        try:
+            if receiver_user.exists():
+                n = Notification(sender=sender_email, sender_name=sender_name, sender_last_name=sender_last_name,
+                                receiver=receiver_email, content=content, date=date, time=time)
+                n.save()
+                return HttpResponse(status=200)
+            else:
+                return HttpResponse("User not found ",status=404)
+        except ValidationError:
+            return HttpResponse("Failed to send request", status=403)
+    else:
+        return HttpResponse("This url is only for POST requests")
+
+# def notifs(request):
+#     n = Notification.objects.all()
+#     return JsonResponse([data.serialize() for data in n], safe=False)
+
+def my_update_requests(request):
+    n = Notification.objects.filter(sender=request.user.email)
+    return JsonResponse([data.serialize() for data in n], safe=False)

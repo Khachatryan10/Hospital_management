@@ -26,4 +26,8 @@ urlpatterns = [
     path("add_medical_history", views.add_medical_history, name="add_medical_history"),
     path("add_medical_history_data", views.add_medical_history_data, name="add_medical_history_data"),
     path("get_medical_history_data", views.get_medical_history_data, name="get_medical_history_data"),
+    path("my_medical_history", views.my_medical_history,name="my_medical_history"),
+    path("get_my_medical_history", views.get_my_medical_history, name="get_my_medical_history"),
+    path("save_notification", views.save_notification, name="save_notification"),
+    path("my_update_requests", views.my_update_requests, name="my_update_requests"),
 ]

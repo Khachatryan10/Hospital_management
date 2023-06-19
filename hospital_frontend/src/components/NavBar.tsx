@@ -9,13 +9,13 @@ import { addUserInfo, updataAuthentication } from "../features/userInfoSlice";
 import ProfileForm from "./ProfileForm";
 import { displayVerticalNavbar, updateLogoutDisplay } from "../features/pageStateSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faArrowRightFromBracket, faBars, faIdCard, faUser } from "@fortawesome/free-solid-svg-icons";
 import FindDoctorsForm from "./FindDoctorsForm";
 import DoctorsPage from "./DoctorsPage";
 import MyAppointementsForm from "./MyAppointementsForm";
 import ManageAppointementsForm from "./ManageAppointementsForm";
 import AddMedicalHistory from "./AddMedicalHistory";
+import MyMedicalHistory from "./MyMedicalHistory";
 
 interface UserInfoTypesMap{
     id: string
@@ -33,7 +33,6 @@ export default function NavBar():JSX.Element  {
     const authenticated: boolean = useSelector((state:RootState) => state.userInformation.authenticated)
     const username:string = useSelector((state:RootState) => state.userInformation.firstName) 
     const role:string = useSelector((state:RootState) => state.userInformation.role) 
-
 
     useEffect(() => {
 
@@ -112,6 +111,7 @@ export default function NavBar():JSX.Element  {
                         <FontAwesomeIcon icon={faArrowRightFromBracket} />&nbsp;
                         Logout
                     </li>}
+
                 </ul>
             </nav>
 
@@ -123,7 +123,10 @@ export default function NavBar():JSX.Element  {
                 <Route path='/my-appointements' element={authenticated && <MyAppointementsForm />}></Route>
                 <Route path='/manage-appointements' element={authenticated && role === "Doctor" && <ManageAppointementsForm />}></Route>
                 <Route path='/doctor/:id' element={authenticated && <DoctorsPage />}></Route>
-                <Route path='/add_medical_history' element={authenticated && <AddMedicalHistory />}></Route>
+                <Route path='/add_medical_history' element={authenticated && role === "Doctor" && <AddMedicalHistory />}></Route>
+                <Route path='/my_medical_history' element={authenticated && role === "Patient" && <MyMedicalHistory />}></Route>
+                <Route path='/notifications' element={authenticated }></Route>
+
                 {/* <Route path='/doctor/:id' element={<DoctorsPage />}></Route> */}
             </Routes>
         </>

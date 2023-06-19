@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
 import { Link } from "react-router-dom"
-import { faBriefcaseMedical, faCalendarCheck, faListCheck, faNotesMedical } from "@fortawesome/free-solid-svg-icons"
+import { faBell, faBriefcaseMedical, faCalendarCheck, faListCheck, faNotesMedical } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export default function VerticalNavbar(){
@@ -51,17 +51,45 @@ export default function VerticalNavbar(){
 
                 <div className="divBottomLine"></div>
 
-                <div className="navbardiv">
-                    <Link to="add_medical_history">
-                        <li >
-                            &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faNotesMedical} />&nbsp;
-                            Medical History
+            {role === "Doctor" && 
+                <>
+                    <div className="navbardiv">
+                        <Link to="add_medical_history">
+                            <li >
+                                &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faNotesMedical} />&nbsp;
+                                Add Medical History
+                            </li>
+                            </Link>
+                        </div>
+                    <div className="divBottomLine"></div>
+                </>
+}
+                
+
+            {role === "Patient" && 
+                <>
+                    <div className="navbardiv">
+                        <Link to="my_medical_history">
+                            <li >
+                                &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faNotesMedical} />&nbsp;
+                                My Medical History
+                            </li>
+                        </Link>
+                    </div>
+                <div className="divBottomLine"></div>
+            </>
+            }
+
+    <div className="navbardiv">
+                    <Link to="/notifications">
+                        <li>
+                            &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faBell} />&nbsp;
+                            Notifications
                         </li>
                     </Link>
                 </div>
 
                 <div className="divBottomLine"></div>
-
             </ul>
         </div>
     )
