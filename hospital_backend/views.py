@@ -425,7 +425,7 @@ def add_medical_history_data(request):
         birth_date = data.get("birthDate")
         med_info = data.get("medInfo")
 
-if not patient then don't let add medical history
+# if not patient then don't let add medical history
         # try: 
         #     patient = User.objects.get(request, first_name=first_name, last_name=last_name, email=email)
         #     # if patient.exists():
