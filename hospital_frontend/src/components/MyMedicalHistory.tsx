@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
+import NothingYetForm from "./NothingYetForm"
 
 // interface MedicalHistoryDataTypes {
 //     patientEmail: string,
@@ -13,7 +14,7 @@ import { RootState } from "../app/store"
 //     medicalInformation: string
 // }
 
-interface MedicalHistoryDataTypes {
+export interface MedicalHistoryDataTypes {
     patient_email: string,
     doctor_email: string,
     doctor_name: string,
@@ -48,7 +49,6 @@ export default function MyMedicalHistory(): JSX.Element {
         )
     },[])
 
-// console.log(medicalHistoryData)
 
     const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
 
@@ -58,16 +58,25 @@ export default function MyMedicalHistory(): JSX.Element {
         //     console.log(Object.values(medicalHistoryData[0]))
         // }
 
-    return(
+    return( 
+        <>
+        {Object.values(medInfo).every(data => data !== "") ?
         <div className={displayNavbar ? "MyMedHistoryContainerDiv" : "MyMedHistoryContainerDivLeft"}>
-            {<h3>{medInfo.patient_name} {medInfo.patient_last_name}</h3>}
+            <h3>{medInfo.patient_name} {medInfo.patient_last_name}</h3>
             <h4>{medInfo.patient_birth_date}</h4>
             <div className="MyMedHistoryContainerDiv__medicalInfo">
                 <p className="MyMedHistoryContainerDiv__prg">
                     {medInfo.medical_information}
                 </p>
+                <br />
+                Written by Doctor {medInfo.doctor_name} {medInfo.doctor_last_name}
             </div>
-        </div>
+            
+        </div>:
+            <NothingYetForm />
+    }
+    </>
+
         )
     
 }

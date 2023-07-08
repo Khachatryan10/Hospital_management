@@ -7,6 +7,7 @@ import { dateAndTimeSliceReducer } from "../features/dateAndTimeSlice"
 import { updatedDoctorsPageSliceReducer } from "../features/updatedDoctorsPageSlice"
 import { updateAppointementsSliceReducer } from "../features/updateAppointementsSlice"
 import { updatedDoctorsScheduleSliceSliceReducer } from "../features/updateDoctorsSchedule"
+import { notificationsSliceReducer } from "../features/notificationsSlice"
 
 export const store = configureStore({
     reducer:{
@@ -17,7 +18,8 @@ export const store = configureStore({
         dateAndTime: dateAndTimeSliceReducer,
         updatedDoctorsPage: updatedDoctorsPageSliceReducer,
         updateAppointements: updateAppointementsSliceReducer,
-        updatedDoctorsSchedule: updatedDoctorsScheduleSliceSliceReducer
+        updatedDoctorsSchedule: updatedDoctorsScheduleSliceSliceReducer,
+        notificationsData: notificationsSliceReducer,
     }
 })
 

@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { SpecialityType } from "./doctorsInfoSlice";
 
 export default interface UserInfoTypes {
     id: string,
@@ -6,7 +7,7 @@ export default interface UserInfoTypes {
     lastName: string,
     email: string,
     role: string,
-    speciality?: string,
+    speciality?: SpecialityType,
     phoneNumber: string,
     authenticated: boolean,
 }

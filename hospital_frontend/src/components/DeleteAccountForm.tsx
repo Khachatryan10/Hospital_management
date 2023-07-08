@@ -27,7 +27,7 @@ export default function DeleteAccountForm(){
     const handleCancel = () => {
         dispatch(deleteDivDisplay(false))
     }
-
+    const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
     const authenticate = useSelector((state:RootState) => state.userInformation.authenticated)
     const [csrf_token, setCsrf_token] = useState<string>("")
     const [passwordInput, setPasswordInput] = useState("")
@@ -97,7 +97,7 @@ export default function DeleteAccountForm(){
 
     return(
         <div className="coverAllDeleteAccount">
-        <div className="deleteAccountFormContainer">
+        <div className={displayNavbar ? "deleteAccountFormContainerLeft": "deleteAccountFormContainer"}>
             <h2>Please provide your password</h2>
             <input type="password" className="deleteAccountFormContainer__passwordInput" value={passwordInput} onChange={(e) => setPasswordInput(e.target.value)} placeholder="password" name="deleteAccountPassword" />
             <br />

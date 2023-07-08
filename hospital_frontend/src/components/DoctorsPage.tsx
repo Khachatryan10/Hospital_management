@@ -84,21 +84,21 @@ export default function DoctorsPage(){
             speciality: ""
         })
 
-        fetch(`http://127.0.0.1:8000/doctor_data/${id}`)
-            .then(response => response.json())
-            .then((doctorData) => doctorData.map((data: DoctorDataMapTypes) => {
-                setDoctorData(prevState => {
-                    return {
-                        ...prevState,
-                            firstName: data.first_name,
-                            lastName: data.last_name, 
-                            email: data.email,
-                            role: data.role, 
-                            phoneNumber: data.phone_number,
-                            speciality: data.speciality
-                    }
-                })
-            }))
+    fetch(`http://127.0.0.1:8000/doctor_data/${id}`)
+        .then(response => response.json())
+        .then((doctorData) => doctorData.map((data: DoctorDataMapTypes) => {
+            setDoctorData(prevState => {
+                return {
+                    ...prevState,
+                        firstName: data.first_name,
+                        lastName: data.last_name, 
+                        email: data.email,
+                        role: data.role, 
+                        phoneNumber: data.phone_number,
+                        speciality: data.speciality
+                }
+            })
+        }))
     },[updated, id, dispatch])
 
     const refContainer = useRef<HTMLDivElement>(null);
@@ -203,7 +203,7 @@ export default function DoctorsPage(){
             <div className={displayNavbar ? "errMessageDiv": "errMessageDivLeft"}>
                 <h3 style={appontementState.styles} className="errMessage">{ appontementState.message }</h3>
             </div>
-
+            <br />
             <input type="password" className={displayNavbar ? "confirmDatePassword": "confirmDatePasswordLeft"} placeholder="Password" value={appontementState.passwordInputAppointement} 
                     onChange={(e) => setAppontementState(prevState => {
                         return{

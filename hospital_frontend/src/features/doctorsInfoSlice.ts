@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
+export type SpecialityType  = "Doctor" | "Receptionist" | ""
+
 export default interface DataTypes {
     email: string,
     first_name: string,
@@ -7,7 +9,7 @@ export default interface DataTypes {
     last_name: string,     
     phone_number: string,
     role: string,
-    speciality: string
+    speciality: SpecialityType
 }
 
 export interface DoctorsDataTypes {

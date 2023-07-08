@@ -25,6 +25,7 @@ interface MyUpdateRequestDataTypes {
     sender_name: string,
     sender_last_name: string,
     receiver: string,
+    notification_type: string,
     content: string,
     date: string,
     time: string
@@ -125,7 +126,8 @@ export default function AddMedicalHistory(){
     }
 
     let td = new Date()
-    let todatTime = `${td.getHours()}:${td.getMinutes()}`
+    //let todatTime = `${td.getHours()}:${td.getMinutes()}`
+    let todatTime = `${td.getHours().toString().length === 1 ? "0" + td.getHours(): td.getHours()}:${td.getMinutes().toString().length === 1 ? "0" + td.getMinutes(): td.getMinutes()}`
 
     const sendRequestMedHistory = async () => {
         await fetch("http://127.0.0.1:8000/save_notification", {
@@ -139,7 +141,8 @@ export default function AddMedicalHistory(){
                     senderName: userInfo.firstName,
                     senderLastName : userInfo.lastName, 
                     receiver: medicalHistoryInputs.email,
-                    content: "asks for permission to update you medical history",
+                    notification_type: "permissionAddMedicalHistory",
+                    content: "asks for permission to update your medical history",
                     date: todayDate,
                     time: todatTime
                 })

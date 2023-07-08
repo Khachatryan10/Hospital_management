@@ -16,6 +16,10 @@ import MyAppointementsForm from "./MyAppointementsForm";
 import ManageAppointementsForm from "./ManageAppointementsForm";
 import AddMedicalHistory from "./AddMedicalHistory";
 import MyMedicalHistory from "./MyMedicalHistory";
+import NotificationsForm from "./NotificationsForm";
+import CurrentNotificationForm from "./CurrentNotificationForm";
+import ChartForm from "./ChartForm";
+
 
 interface UserInfoTypesMap{
     id: string
@@ -125,8 +129,9 @@ export default function NavBar():JSX.Element  {
                 <Route path='/doctor/:id' element={authenticated && <DoctorsPage />}></Route>
                 <Route path='/add_medical_history' element={authenticated && role === "Doctor" && <AddMedicalHistory />}></Route>
                 <Route path='/my_medical_history' element={authenticated && role === "Patient" && <MyMedicalHistory />}></Route>
-                <Route path='/notifications' element={authenticated }></Route>
-
+                <Route path='/notifications' element={authenticated && <NotificationsForm />}></Route>
+                <Route path='/notifications/:id' element={authenticated && <CurrentNotificationForm />}></Route>
+                <Route path='/chart' element={authenticated && role === "Doctor" && <ChartForm />}></Route>
                 {/* <Route path='/doctor/:id' element={<DoctorsPage />}></Route> */}
             </Routes>
         </>

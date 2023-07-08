@@ -10,7 +10,6 @@ export default function LogoutForm(): JSX.Element{
     const navigate = useNavigate()
     const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
 
-
     const handleLogout = async() => {
         await fetch("http://127.0.0.1:8000/logoutUser")
         dispatch(updataAuthentication(false))

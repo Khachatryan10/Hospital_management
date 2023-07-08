@@ -1,12 +1,24 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
 import { Link } from "react-router-dom"
-import { faBell, faBriefcaseMedical, faCalendarCheck, faListCheck, faNotesMedical } from "@fortawesome/free-solid-svg-icons"
+import { faBell, faBriefcaseMedical, faCalendarCheck, faChartSimple, faListCheck, faNotesMedical } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { useEffect, useState } from "react"
 
 export default function VerticalNavbar(){
     const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
     const role:string = useSelector((state:RootState) => state.userInformation.role)
+    const [notificationCount, setNotificationCount] = useState<number>(0)
+    const notificationData = useSelector((state:RootState) => state.notificationsData.notifications)
+
+    useEffect(() => {
+        fetch("http://127.0.0.1:8000/get_notification_count")
+            .then(response => response.json())
+            .then((count:number) => {
+                setNotificationCount(count)
+            }
+        )
+    },[notificationData])
 
     return(
         <div className={displayNavbar ? "verticalNavbar": "verticalNavbarHide"}>
@@ -84,13 +96,29 @@ export default function VerticalNavbar(){
                     <Link to="/notifications">
                         <li>
                             &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faBell} />&nbsp;
-                            Notifications
+                            Notifications { notificationCount > 0 ? notificationCount: "" }
                         </li>
                     </Link>
                 </div>
 
-                <div className="divBottomLine"></div>
+    <div className="divBottomLine"></div>
+        {role === "Doctor" &&
+        <>
+            <div className="navbardiv">
+                    <Link to="/chart">
+                        <li>
+                            &nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faChartSimple} />&nbsp;
+                            Chart
+                        </li>
+                    </Link>
+            </div>                     
+            <div className="divBottomLine"></div>
+        </>
+        }
+
             </ul>
         </div>
+
+    
     )
 }

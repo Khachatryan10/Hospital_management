@@ -1,27 +1,24 @@
 from .models import Schedule, MedicalHistory, Notification
 from django.shortcuts import render, HttpResponse
 from .models import User, Schedule
+from django.db.models import Q
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 import json
+from datetime import date, timedelta, datetime
 import re
-# from django.db.models import Q
-# import datetime
-# import time
-from django.utils import timezone
-
 from dotenv import load_dotenv
 import os
+from django.db.models.functions import Concat
+
 # Create your views here.
 
 load_dotenv()
 
-
 def reregisterUser(request):
     return render(request, "index.html")
-
 
 def registerUserPost(request):
     if request.method == "POST":
@@ -75,7 +72,7 @@ def registerUserPost(request):
         if password == confirmation:
             try:
                 new_user = User.objects.create_user(email=email, role=role, speciality=speciality,
-                                                    first_name=name, last_name=last_name, phone_number=phone_number, password=password)
+                                                    first_name=name, last_name=last_name, full_name=f"{name} {last_name}" , phone_number=phone_number, password=password)
                 new_user.save()
                 return HttpResponse("Sucessfully registered user", status=200)
 
@@ -86,18 +83,14 @@ def registerUserPost(request):
     else:
         return HttpResponse("This url is only for POST requests")
 
-
 def loginUserPage(request):
     return render(request, "index.html")
-
 
 def profile(request):
     return render(request, "index.html")
 
-
 def appointements(request):
     return render(request, "index.html")
-
 
 def loginUser(request):
     if request.method == "POST":
@@ -127,11 +120,9 @@ def user_data(request):
 
     return JsonResponse([data, {"is_authenticated": is_authenticated}], safe=False)
 
-
 def logoutUser(request):
     logout(request)
     return render(request, "index.html")
-
 
 def change_password(request):
     if request.method == "POST":
@@ -172,7 +163,6 @@ def change_password(request):
     else:
         return HttpResponse("This url is only for POST requests")
 
-
 def delete_account(request):
     if request.method == "DELETE":
         user_data = json.loads(request.body)
@@ -188,15 +178,23 @@ def delete_account(request):
     else:
         return HttpResponse("This url is only for DELETE requests")
 
+def doctors(request, num):
+    try:
+        doctors_data = User.objects.filter(role="Doctor")
+    except ValidationError:
+        return HttpResponse(status=403)
+    data = doctors_data[:num]
+    return JsonResponse([doctor.serialize() for doctor in data], safe=False)
 
-def doctors(request):
-    doctors_data = User.objects.filter(role="Doctor")
-    return JsonResponse([doctor.serialize() for doctor in doctors_data], safe=False)
-
+def all_doctors_number(request):
+    try:
+        doctors_data = User.objects.filter(role="Doctor")
+    except ValidationError:
+        return HttpResponse(status=403)
+    return HttpResponse(doctors_data.count())
 
 def doctor_page(request, id):
     return render(request, "index.html")
-
 
 def doctor_data(request, id):
     try:
@@ -207,20 +205,27 @@ def doctor_data(request, id):
     return JsonResponse([data.serialize() for data in doctor_data], safe=False)
 
 
+def search_doctors(request, search_value, num):
+    try:
+        doctors_data = User.objects.filter(Q(first_name__contains=search_value) | Q(last_name__contains=search_value) | Q(speciality__contains=search_value) | Q(full_name__contains=search_value), role="Doctor")
+    except ValidationError:
+        return HttpResponse(status=403)
+    data = doctors_data[:num]
+    return JsonResponse([doctor.serialize() for doctor in data], safe=False)
+
 schedule_time = ["09:00", "09:20", "09:40", "10:00",
-                 "10:20", "10:40", "11:00", "11:20",
-                 "11:40", "12:00", "13:30", "13:50",
-                 "14:10", "14:30", "14:50", "15:10",
-                 "15:30", "15:50", "16:10", "16:30",
-                 "16:50"]
+                    "10:20", "10:40", "11:00", "11:20",
+                    "11:40", "12:00", "13:30", "13:50",
+                    "14:10", "14:30", "14:50", "15:10",
+                    "15:30", "15:50", "16:10", "16:30",
+                    "16:50"]
 
 week_days = ["Sunday", "Monday", "Tuesday",
-             "Wednesday", "Thursday", "Friday", "Saturday"]
+                "Wednesday", "Thursday", "Friday", "Saturday"]
 months = ["Jan", "Feb", "Mar", "Apr", "May", "June",
-          "July", "Aug",	"Sept",	"Oct", "Nov", "Dec"]
+            "July", "Aug","Sept",	"Oct", "Nov", "Dec"]
 
 # require role patient
-
 
 def add_appointement(request):
     if request.method == "POST":
@@ -308,33 +313,57 @@ def doctors_schedule(request, id):
     return JsonResponse([{"time": schedule.time, "date": schedule.date, "working_day": schedule.working_day, "id": schedule.id, "week_day": schedule.week_day} for schedule in schedules], safe=False)
 
 
-def my_appointements_data(request):
+td = date.today() 
+def my_appointements_data(request, num):
+    date = []
+
+    for i in range(17):
+        day = td + timedelta(i)
+        date.append(str(day).replace("-", ":"))
+
     if request.user.role == "Patient":
         try:
-            schedules = Schedule.objects.filter(patient_email=request.user.email,working_day=True)
+            schedules = Schedule.objects.filter(patient_email=request.user.email, working_day=True, date__in=date).order_by("date", "time")
         except AttributeError:
             return HttpResponse("Please log in in order to be able to see your appointements")
     elif request.user.role == "Doctor":
         try:
             schedules = Schedule.objects.filter(
-                doctor_email=request.user.email, working_day=True)
+                doctor_email=request.user.email, working_day=True, date__in=date).order_by("date", "time")
         except AttributeError:
             return HttpResponse("Please log in in order to be able to see your appointements")
-    return JsonResponse([schedule.serialize() for schedule in schedules], safe=False)
+    s = schedules[:num]
+    return JsonResponse([schedule.serialize() for schedule in s], safe=False)
 
+
+def all_appointements_count(request):
+    date = []
+    for i in range(17):
+        day = td + timedelta(i)
+        date.append(str(day).replace("-", ":"))
+
+    if request.user.role == "Patient":
+        try:
+            schedules = Schedule.objects.filter(patient_email=request.user.email, working_day=True, date__in=date).order_by("date", "time")
+        except AttributeError:
+            return HttpResponse("Please log in in order to be able to see your appointements")
+    elif request.user.role == "Doctor":
+        try:
+            schedules = Schedule.objects.filter(
+                doctor_email=request.user.email, working_day=True, date__in=date).order_by("date", "time")
+        except AttributeError:
+            return HttpResponse("Please log in in order to be able to see your appointements")
+    return HttpResponse(schedules.count())
 
 def my_appointements(request):
     return render(request, "index.html")
 
-
 def manage_appointements(request):
     return render(request, "index.html")
-
 
 def my_schedule(request):
     schedules = Schedule.objects.filter(doctor_email=request.user.email)
     return JsonResponse([{"time": schedule.time, "date": schedule.date, "working_day": schedule.working_day, "id": schedule.id, "week_day": schedule.week_day} for schedule in schedules], safe=False)
-
 
 def update_appointement(request):
     if request.method == "POST":
@@ -400,7 +429,6 @@ def update_appointement(request):
                         date.append(data["date"])
                         time.append(data["time"])
                     
-                # for dt in date_time:
             schedule = Schedule.objects.filter(
                         doctor_email=request.user.email, date__in=date, time__in=time)
             schedule.delete()
@@ -411,10 +439,8 @@ def update_appointement(request):
     else:
         return HttpResponse("This url is only for POST requests")
 
-
 def my_medical_history(request):
     return render(request, "index.html")
-
 
 def add_medical_history_data(request):
     if request.method == "POST":
@@ -425,20 +451,14 @@ def add_medical_history_data(request):
         birth_date = data.get("birthDate")
         med_info = data.get("medInfo")
 
-# if not patient then don't let add medical history
-        # try: 
-        #     patient = User.objects.get(request, first_name=first_name, last_name=last_name, email=email)
-        #     # if patient.exists():
-        #     #     return HttpResponse(status=200)
-            
-        # except ValueError:
-        # # if patient.exists()
-        #     return HttpResponse(status=404)
-
         if not email or not first_name or not last_name or not birth_date or not med_info:
             return HttpResponse("Please fill all fields", status=400)
 
-        # if patient.exists():
+        dr = User.objects.filter(Q(role="Doctor") | Q(
+            role="Receptionist"), email=email, first_name=first_name, last_name=last_name,)
+        
+        if dr.exists():
+            return HttpResponse("User not found", status=404)
 
         
         mh = MedicalHistory.objects.filter(
@@ -449,7 +469,6 @@ def add_medical_history_data(request):
         
         patient = User.objects.filter(email=email, first_name=first_name, last_name=last_name)
         
-
         try:
             if patient.exists():
                 med_history = MedicalHistory(
@@ -459,7 +478,7 @@ def add_medical_history_data(request):
                 med_history.save()
                 return HttpResponse("Medical history is added", status=200)
             else:
-                return HttpResponse("No user found", status=404)
+                return HttpResponse("User not found", status=404)
         except ValidationError:
             return HttpResponse("Failed to add medical history", status=403)
 
@@ -478,16 +497,20 @@ def get_my_medical_history(request):
     med_history = MedicalHistory.objects.filter(patient_email=request.user.email)
     return JsonResponse([data.serialize() for data in med_history], safe=False)
 
+# saves notification when the doctor sends request tu update the medical history or the patient allows it.
+
 def save_notification(request):
     if request.method == "POST":
         data = json.loads(request.body)
         sender_email = data.get("sender")
         sender_name = data.get("senderName") 
         sender_last_name = data.get("senderLastName")  
+        notification_type = data.get("notification_type")
         receiver_email = data.get("receiver")
         content = data.get("content")
         date = data.get("date")
         time = data.get("time")
+        id = data.get("notificationId")
 
         if not sender_email or not sender_name or not sender_last_name or not receiver_email or not content or not data or not time:
             return HttpResponse("missing information", status=404)
@@ -498,11 +521,15 @@ def save_notification(request):
         try:
             if receiver_user.exists():
                 n = Notification(sender=sender_email, sender_name=sender_name, sender_last_name=sender_last_name,
-                                receiver=receiver_email, content=content, date=date, time=time)
+                                receiver=receiver_email, notification_type=notification_type, content=content, date=date, time=time)
                 n.save()
+                if id:
+                    n = Notification.objects.get(id=id)
+                    n.delete()
+                    return HttpResponse(status=200)
                 return HttpResponse(status=200)
             else:
-                return HttpResponse("User not found ",status=404)
+                return HttpResponse("User not found ", status=404)
         except ValidationError:
             return HttpResponse("Failed to send request", status=403)
     else:
@@ -512,6 +539,97 @@ def save_notification(request):
 #     n = Notification.objects.all()
 #     return JsonResponse([data.serialize() for data in n], safe=False)
 
+def refuse_med_history_update(request, id):
+    if request.method == "POST":
+        try: 
+            n = Notification.objects.get(id=id)
+            n.delete()
+            return HttpResponse(status=200)
+        except ValidationError:
+            return HttpResponse(status=403)
+    else:
+        return HttpResponse("This url is only for POST requests")
+
 def my_update_requests(request):
     n = Notification.objects.filter(sender=request.user.email)
     return JsonResponse([data.serialize() for data in n], safe=False)
+
+def get_my_notifications(request):
+    notifications = Notification.objects.filter(receiver=request.user.email).order_by("date", "time").reverse()
+    return JsonResponse([{"id": n.id, "sender_name": n.sender_name, "sender_last_name": n.sender_last_name, "seen": n.seen} for n in notifications], safe=False)
+
+def get_notification_count(request):
+    n = Notification.objects.filter(receiver=request.user.email, seen=False).count()
+    return HttpResponse(n)
+
+def notifications(request):
+    return render(request, "index.html")
+
+def update_notification_seen(request, id):
+    if request.method == "PUT":
+        try:
+            n = Notification.objects.get(id=id)
+            n.seen = True
+            n.save()
+            return HttpResponse(status=200)
+        except ValidationError:
+            return HttpResponse(status=403)
+    else:
+        return HttpResponse("This url is only for PUT requests")
+
+def get_notification(request,id):
+    return render(request, "index.html")
+
+def get_chart(request):
+    return render(request, "index.html")
+
+def get_current_notification(request, id):
+    notification = Notification.objects.filter(id=id, receiver=request.user.email)
+    return JsonResponse([n.serialize() for n in notification], safe=False)
+
+def update_med_history(request, patient_email):
+    if request.method == "PUT":
+        data = json.loads(request.body)
+        updated_content = data.get("updatedContent")
+        birth_date = data.get("birthDate")
+        notification_id = data.get("notificationId")
+
+        try:
+            mh = MedicalHistory.objects.get(patient_email=patient_email)
+            mh.medical_information = updated_content
+            mh.doctor_email = request.user.email    
+            mh.doctor_name = request.user.first_name
+            mh.doctor_last_name = request.user.last_name
+
+            if birth_date:
+                mh.patient_birth_date = birth_date
+
+            mh.save()
+            
+            n = Notification.objects.get(id=notification_id)
+            n.delete()
+
+            return HttpResponse(status=200)
+        except ValidationError:
+            return HttpResponse(status=403)
+    else:
+        return HttpResponse("This url is only for PUT requests")
+
+# for D3 JS create a view which will return all appointement for the mentioned date of today, tomorrow etc until 7 days
+
+def char_bar_info(request):
+    today = date.today()
+    days = []
+    data = []
+
+    for i in range(10):
+        day = today + timedelta(i)
+        w = day.strftime("%w")
+        m = day.strftime("%m")
+        d = day.strftime("%d")
+        days.append(str(day).replace("-", ":"))        
+
+        schedule_info = Schedule.objects.filter(
+        doctor_email=request.user.email, date=days[i])
+        data.append({"date": days[i], "count": schedule_info.count(), "week_day": week_days[int(w)], "day_month": f"{months[int(m) - 1]} {d}"})
+    return JsonResponse(data, safe=False)

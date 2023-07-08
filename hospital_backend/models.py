@@ -49,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     role = models.CharField(max_length=20, null=False)
     speciality = models.CharField(max_length=40, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    
+    full_name = models.CharField(max_length=128)
     is_active = models.BooleanField(default=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
@@ -78,6 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             "id": self.id,
             "first_name": self.first_name,
             "last_name": self.last_name,
+            "full_name": self.full_name,
             "email": self.email,
             "role": self.role,
             "phone_number": self.phone_number,
@@ -145,9 +146,11 @@ class Notification(models.Model):
     sender_name = models.CharField(max_length=64)
     sender_last_name = models.CharField(max_length=100)
     receiver = models.CharField(max_length=80)
+    notification_type = models.CharField(max_length=100)
     content = models.CharField(max_length=500)
     date = models.CharField(max_length=20)
     time = models.CharField(max_length=8)
+    seen = models.BooleanField(default=False)
 
     def serialize(self):
         return {
@@ -156,9 +159,11 @@ class Notification(models.Model):
             "sender_name": self.sender_name,
             "sender_last_name": self.sender_last_name,
             "receiver": self.receiver,
+            "notification_type": self.notification_type,
             "content": self.content,
             "date": self.date,
             "time": self.time,
+            "seen": self.seen
         }
 
 
