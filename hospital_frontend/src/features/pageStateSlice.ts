@@ -1,15 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export default interface PageStateTypes {
-    displayLogoutForm: boolean
-    displayDeleteDiv: boolean
-    displayNavbar: boolean
+    displayLogoutForm: boolean,
+    displayDeleteDiv: boolean,
+    displayNavbar: boolean,
+    clickedToDisplayNavbar: boolean
 }
 
 const initialState: PageStateTypes = {
     displayLogoutForm: false,
     displayDeleteDiv: false,
-    displayNavbar: true
+    displayNavbar: true,
+    clickedToDisplayNavbar: false
 }
 
 export const pageStateSlice = createSlice({
@@ -24,11 +26,20 @@ export const pageStateSlice = createSlice({
             state.displayDeleteDiv = action.payload
         },
 
-        displayVerticalNavbar: (state: PageStateTypes):void => {
+        displayVerticalNavbar: (state: PageStateTypes, action:PayloadAction<boolean>):void => {
+            state.displayNavbar = action.payload
+        },
+
+        toggleNavbarDisplay: (state: PageStateTypes): void => {
             state.displayNavbar = !state.displayNavbar
+        },
+
+        clickedToToggle: (state: PageStateTypes, action:PayloadAction<boolean>): void => {
+            state.clickedToDisplayNavbar = action.payload
         }
+
     }
 })
 
 export const pageStateSliceReducer = pageStateSlice.reducer
-export const { updateLogoutDisplay, deleteDivDisplay, displayVerticalNavbar } = pageStateSlice.actions
+export const { updateLogoutDisplay, deleteDivDisplay, clickedToToggle, displayVerticalNavbar, toggleNavbarDisplay } = pageStateSlice.actions

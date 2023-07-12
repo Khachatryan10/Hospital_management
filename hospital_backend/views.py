@@ -30,7 +30,6 @@ def registerUserPost(request):
         role = user_data.get("role")
         speciality = user_data.get("speciality")
         regist_code_doctor = user_data.get("registCodeDoctor")
-        regist_code_receptionist = user_data.get("registCodeReceptionist")
         phone_number = user_data.get("phoneNumber")
         password = user_data.get("password")
         confirmation = user_data.get("confirmation")
@@ -50,11 +49,7 @@ def registerUserPost(request):
         if not matches_all or not numberFormatRegex or not emailRegex:
             return HttpResponse("Please fill the inputs with appropriate format", status=400)
 
-        code_recep = os.environ.get('CODE_RECEP')
         code_doctor = os.environ.get('CODE_DOCTOR')
-
-        if role == "Receptionist" and regist_code_receptionist != code_recep or role == "Receptionist" and not regist_code_receptionist:
-            return HttpResponse("Please provide valid code", status=401)
 
         if role == "Doctor" and regist_code_doctor != code_doctor or role == "Doctor" and not regist_code_doctor:
             return HttpResponse("Please provide valid code", status=401)
@@ -236,7 +231,6 @@ def add_appointement(request):
         doctor_last_name = user_data.get("doctorLastName")
         doctor_email = user_data.get("doctorEmail")
         patient_email = user_data.get("patientEmail")
-        # patient_id = user_data.get("patientID")
         doctor_id = user_data.get("doctorId")
         week_day = user_data.get("weekDay")
         appointement_date = user_data.get("appintementDate")
@@ -375,7 +369,6 @@ def update_appointement(request):
         date = []
         time = []
 
-        # add if not schedule_data length respons httt response 400 and etc
         user = authenticate(
             request, password=password, email=request.user.email, role="Doctor")
 
@@ -454,8 +447,7 @@ def add_medical_history_data(request):
         if not email or not first_name or not last_name or not birth_date or not med_info:
             return HttpResponse("Please fill all fields", status=400)
 
-        dr = User.objects.filter(Q(role="Doctor") | Q(
-            role="Receptionist"), email=email, first_name=first_name, last_name=last_name,)
+        dr = User.objects.filter(Q(role="Doctor"), email=email, first_name=first_name, last_name=last_name,)
         
         if dr.exists():
             return HttpResponse("User not found", status=404)
@@ -615,7 +607,7 @@ def update_med_history(request, patient_email):
     else:
         return HttpResponse("This url is only for PUT requests")
 
-# for D3 JS create a view which will return all appointement for the mentioned date of today, tomorrow etc until 7 days
+# for D3 JS create a view which will return all appointement for the mentioned date of today, tomorrow etc until 10 days
 
 def char_bar_info(request):
     today = date.today()

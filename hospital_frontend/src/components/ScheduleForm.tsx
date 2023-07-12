@@ -145,20 +145,17 @@ export default function ScheduleForm(): JSX.Element {
 
             else if (data.id === scheduleId && data.chosen && userInfo.role === "Doctor"){
                 dispatch(setAppointementUnChosenDr(data.id)) 
-                // dispatch(removeAppointementInfo())
                 dispatch(removeDate(data.id))
             
 
                 if (data.busy){
                     dispatch(setAppointementUnChosenDr(data.id)) 
-                    // dispatch(removeAppointementInfo())
                     dispatch(setBusyDay(data.id))
                 
                 }
 
                 if (!data.workingDay){
                     dispatch(setAppointementUnChosenDr(data.id)) 
-                    // dispatch(removeAppointementInfo())
                     dispatch(setNotWorkingDayDr(data.id))
                 }
             }
@@ -227,7 +224,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>Tomorrow ({dateDataInfo.weekDays[dateDataInfo.tomorrowDayOfWeek]})</h3>
-                {/* <p>{ dateDataInfo.tomorrowDate }</p> */}
                 {tomorrowData.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -251,7 +247,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day3DayOfWeek]} {dateDataInfo.day3Date.slice(8,10)} {months[dateDataInfo.d3Month]}</h3>
-                {/* <p>{ dateDataInfo.day3Date }</p> */}
                 {day3.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -274,7 +269,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day4DayOfWeek]} {dateDataInfo.day4Date.slice(8,10)} {months[dateDataInfo.d4Month]}</h3>
-                {/* <p>{ dateDataInfo.day4Date }</p> */}
                 {day4.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -297,7 +291,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day5DayOfWeek]} {dateDataInfo.day5Date.slice(8,10)} {months[dateDataInfo.d5Month]}</h3>
-                {/* <p>{ dateDataInfo.day5Date }</p> */}
                 {day5.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn"
@@ -320,7 +313,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{ dateDataInfo.weekDays[dateDataInfo.day6DayOfWeek]} {dateDataInfo.day6Date.slice(8,10)} {months[dateDataInfo.d6Month]}</h3>
-                {/* <p>{ dateDataInfo.day6Date }</p> */}
                 {day6.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -343,7 +335,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day7DayOfWeek]} {dateDataInfo.day7Date.slice(8,10)} {months[dateDataInfo.d7Month]}</h3>
-                {/* <p>{ dateDataInfo.day7Date }</p> */}
                 {day7.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -366,7 +357,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{ dateDataInfo.weekDays[dateDataInfo.day8DayOfWeek]} {dateDataInfo.day8Date.slice(8,10)} {months[dateDataInfo.d8Month]}</h3>
-                {/* <p>{ dateDataInfo.day8Date }</p> */}
                 {day8.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -389,7 +379,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{ dateDataInfo.weekDays[dateDataInfo.day9DayOfWeek]} {dateDataInfo.day9Date.slice(8,10)} {months[dateDataInfo.d9Month]}</h3>
-                {/* <p>{ dateDataInfo.day9Date }</p> */}
                 {day9.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -412,7 +401,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{ dateDataInfo.weekDays[dateDataInfo.day10DayOfWeek]} {dateDataInfo.day10Date.slice(8,10)} {months[dateDataInfo.d10Month]}</h3>
-                {/* <p>{ dateDataInfo.day10Date }</p> */}
                 {day10.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -434,7 +422,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day11DayOfWeek]} {dateDataInfo.day11Date.slice(8,10)} {months[dateDataInfo.d11Month]}</h3>
-                {/* <p>{ dateDataInfo.day11Date }</p> */}
                 {day11.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -457,7 +444,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day12DayOfWeek]} {dateDataInfo.day12Date.slice(8,10)} {months[dateDataInfo.d12Month]}</h3>
-                {/* <p>{ dateDataInfo.day12Date }</p> */}
                 {day12.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -480,7 +466,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day13DayOfWeek]} {dateDataInfo.day13Date.slice(8,10)} {months[dateDataInfo.d13Month]}</h3>
-                {/* <p>{ dateDataInfo.day13Date }</p> */}
                 {day13.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -503,7 +488,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day14DayOfWeek]} {dateDataInfo.day14Date.slice(8,10)} {months[dateDataInfo.d14Month]}</h3>
-                {/* <p>{ dateDataInfo.day14Date }</p> */}
                 {day14.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -526,7 +510,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{dateDataInfo.weekDays[dateDataInfo.day15DayOfWeek]} {dateDataInfo.day15Date.slice(8,10)} {months[dateDataInfo.d15Month]}</h3>
-                {/* <p>{ dateDataInfo.day15Date }</p> */}
                 {day15.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 
@@ -549,7 +532,6 @@ export default function ScheduleForm(): JSX.Element {
                     "Select All": "Unselect All"}
                 </button>}
                 <h3>{ dateDataInfo.weekDays[dateDataInfo.day16DayOfWeek]} {dateDataInfo.day16Date.slice(8,10)} {months[dateDataInfo.d16Month]}</h3>
-                {/* <p>{ dateDataInfo.day16Date }</p> */}
                 {day16.map(data => {
                     return(
                         <button className="doctorsPageDiv__timeBtn" 

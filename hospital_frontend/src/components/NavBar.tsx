@@ -7,7 +7,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
 import { addUserInfo, updataAuthentication } from "../features/userInfoSlice";
 import ProfileForm from "./ProfileForm";
-import { displayVerticalNavbar, updateLogoutDisplay } from "../features/pageStateSlice";
+import { updateLogoutDisplay, toggleNavbarDisplay,clickedToToggle } from "../features/pageStateSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRightFromBracket, faBars, faIdCard, faUser } from "@fortawesome/free-solid-svg-icons";
 import FindDoctorsForm from "./FindDoctorsForm";
@@ -19,7 +19,6 @@ import MyMedicalHistory from "./MyMedicalHistory";
 import NotificationsForm from "./NotificationsForm";
 import CurrentNotificationForm from "./CurrentNotificationForm";
 import ChartForm from "./ChartForm";
-
 
 interface UserInfoTypesMap{
     id: string
@@ -37,9 +36,8 @@ export default function NavBar():JSX.Element  {
     const authenticated: boolean = useSelector((state:RootState) => state.userInformation.authenticated)
     const username:string = useSelector((state:RootState) => state.userInformation.firstName) 
     const role:string = useSelector((state:RootState) => state.userInformation.role) 
-
+    
     useEffect(() => {
-
         async function fetching(){
             await fetch("http://127.0.0.1:8000/user_data")
                 .then(response => response.json())
@@ -77,9 +75,9 @@ export default function NavBar():JSX.Element  {
     }
 
     const handleDisplayNavbar = () => {
-        dispatch(displayVerticalNavbar())
+            dispatch(clickedToToggle(true))
+            dispatch(toggleNavbarDisplay())
     }
-
 
     return(
         <>
@@ -87,9 +85,7 @@ export default function NavBar():JSX.Element  {
                 <ul>
                     {authenticated &&
                     <li>
-                        {/* <Link to="/"> */}
                             <FontAwesomeIcon icon={faBars} onClick={handleDisplayNavbar}/>
-                        {/* </Link> */}
                     </li>
                     }
                     
@@ -132,7 +128,6 @@ export default function NavBar():JSX.Element  {
                 <Route path='/notifications' element={authenticated && <NotificationsForm />}></Route>
                 <Route path='/notifications/:id' element={authenticated && <CurrentNotificationForm />}></Route>
                 <Route path='/chart' element={authenticated && role === "Doctor" && <ChartForm />}></Route>
-                {/* <Route path='/doctor/:id' element={<DoctorsPage />}></Route> */}
             </Routes>
         </>
     )

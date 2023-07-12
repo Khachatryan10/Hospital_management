@@ -50,33 +50,14 @@ export default function NotificationsForm(): JSX.Element {
             .then(response =>  {
             
                 if (response.ok){
-
                     dispatch(updateNotificationSeen(id))
-
-                    //setNotificationData(prevState => {
-                      //  return prevState.map(data => {
-                        //    if (data.id === id){
-                 //              return{
-                 //                  ...data,
-                 //                  seen: true
-                 //              }
-                 //          }
-                 //          else {
-                 //              return data
-                 //          }
-                 //      })
-                 //  })
-
                     return navigate(id)
                 }
                 else {
                     console.log("Something went wrong")
                 }
-
             })
-
             .catch(error => console.log(error))
-
         }
     }
 

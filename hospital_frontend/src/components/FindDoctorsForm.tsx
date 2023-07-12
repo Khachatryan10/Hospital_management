@@ -63,10 +63,8 @@ export default function FindDoctorsForm(){
             })
     }
 
-
     useEffect(() => {
         if (inputValue === ""){            
-          //  dispatch(emptyDoctorsData())
             fetchDoctorsData()
         }
         else {
@@ -82,13 +80,6 @@ export default function FindDoctorsForm(){
     const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
     }
-   //useEffect(() => {
-   //    if (inputValue !== ""){        
-   //        dispatch(emptyDoctorsData())
-   //        fetchSearchedData()
-   //    }
-   //},[inputValue])
- //},[dispatch, inputValue])
 
     return(
         <>            

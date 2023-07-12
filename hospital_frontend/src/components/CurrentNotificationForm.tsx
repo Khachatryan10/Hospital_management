@@ -172,8 +172,8 @@ export default function CurrentNotificationForm(): JSX.Element {
     return(
         <div className={displayNavbar ? "currentNotificationDiv": "currentNotificationDivLeft"}>
             <div>
-                <h1>{notificationInformation.sender_name} {notificationInformation.sender_last_name} ({notificationInformation.sender}) </h1>
-                {notificationInformation.notification_type !== "allowedToModifyMedHistory" && <h1>{notificationInformation.content}</h1>}
+                <h1 className="currentNotificationDiv__senderH1">{notificationInformation.sender_name} {notificationInformation.sender_last_name} ({notificationInformation.sender}) </h1>
+                {notificationInformation.notification_type !== "allowedToModifyMedHistory" && <h1 className="currentNotificationDiv__notifContentH1">{notificationInformation.content}</h1>}
                 {notificationInformation.notification_type === "allowedToModifyMedHistory" && 
                 <div>
                     <h4>You can update {notificationInformation.sender_name} {notificationInformation.sender_last_name}'s medical history</h4>
@@ -187,7 +187,6 @@ export default function CurrentNotificationForm(): JSX.Element {
                 }
             
                 {notificationInformation.notification_type === "permissionAddMedicalHistory" &&
-    
                 <div className="currentNotificationDiv__allowRejectBtnsDiv">
                     <button onClick={saveNotification} className="currentNotificationDiv__allowBtn">Allow</button>
                     <button onClick={refuseUpdate} className="currentNotificationDiv__refuseBtn">Refuse</button>

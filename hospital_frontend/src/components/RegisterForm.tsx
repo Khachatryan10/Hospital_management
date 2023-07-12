@@ -12,7 +12,6 @@ interface LoginInputTypes {
     role: string,
     speciality?: string,
     registCodeDoctor? : string,
-    registCodeReceptionist? : string,
     phoneNumber: string,
     password: string,
     confirmation: string
@@ -34,7 +33,6 @@ export default function RegisterForm():JSX.Element {
         "role": "Patient",
         "speciality": "",
         "registCodeDoctor": "",
-        "registCodeReceptionist": "",
         "phoneNumber": "",
         "password": "",
         "confirmation": "",
@@ -236,7 +234,6 @@ useEffect(() => {
                         role: registerInputs.role,
                         speciality: registerInputs.speciality,
                         registCodeDoctor: registerInputs.registCodeDoctor,
-                        registCodeReceptionist: registerInputs.registCodeReceptionist,
                         phoneNumber: registerInputs.phoneNumber,
                         password: registerInputs.password,
                         confirmation: registerInputs.confirmation
@@ -314,24 +311,24 @@ useEffect(() => {
                 <input type="text" className="registerDiv__input" value={registerInputs.email} onChange={handleInputChange} name="email" placeholder="email" />
                 <select className="registerDiv__select" value={registerInputs.role} onChange={handleInputChange} name="role">
                     <option value="Patient">Patient</option>
-                    <option value="Receptionist">Receptionist</option>
                     <option value="Doctor">Doctor</option>
                 </select>
                 {registerInputs.role === "Doctor" && <input type="text" className="registerDiv__input" value={registerInputs.registCodeDoctor} onChange={handleInputChange} name="registCodeDoctor" placeholder="registration code (Doctor)" />}
                 {registerInputs.role === "Doctor" && <select name="speciality" className="registerDiv__select" value={registerInputs.speciality} onChange={handleInputChange}>
                     <option disabled selected value={""}>Speciality</option>
-                    <option value="Endocrinology">Endocrinology</option>
-                    <option value="Cardiology">Cardiology</option>
-                    <option value="Radiology">Radiology</option>
-                    <option value="Dermatology">Dermatology</option>
-                    <option value="Oncology">Oncology</option>
-                    <option value="Urology">Urology</option>
-                    <option value="Gynecology">Gynecology</option>
-                    <option value="Neurology">Neurology</option>
-                    <option value="Hematology">Hematology</option>
-                    <option value="Psychiatry">Psychiatry</option>
+                    <option value="Endocrinologist">Endocrinologist</option>
+                    <option value="Cardiologist">Cardiologist</option>
+                    <option value="Radiologist">Radiologist</option>
+                    <option value="Dermatologist">Dermatologist</option>
+                    <option value="Oncologist">Oncologist</option>
+                    <option value="Urologist">Urologist</option>
+                    <option value="Gynecologist">Gynecologist</option>
+                    <option value="Neurologist">Neurologist</option>
+                    <option value="Hematologist">Hematologist</option>
+                    <option value="Psychiatrist">Psychiatrist</option>
                 </select>}
-                {registerInputs.role === "Receptionist" &&  <input type="text" className="registerDiv__input" value={registerInputs.registCodeReceptionist} onChange={handleInputChange} name="registCodeReceptionist" placeholder="registration code (Receptionist)" />}
+
+
                 <input type="tel" className="registerDiv__input" value={registerInputs.phoneNumber} onChange={handleInputChange} name="phoneNumber"  placeholder="phone number 0X-XX-XX-XX-XX" />
                 <input type="password" className="registerDiv__input" value={registerInputs.password} onChange={handleInputChange} name="password" placeholder="password" />
                 <p style={prgStyle}>Password must contain at least 8 characters and must include number, capital and small letter and special character</p>

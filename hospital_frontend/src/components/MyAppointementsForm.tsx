@@ -41,13 +41,19 @@ export default function MyAppointementsForm(): JSX.Element {
             .then(response => response.json())
             .then((doctorsData:MyAppointementDataTypes[]) => {
 
+            doctorsData.map((data:MyAppointementDataTypes) => {
+                if (myAppointements.some(elem => elem.id === data.id)){
+                    return
+                }
+            })        
+
             if (hasMore) { 
-                setmyAppointements([])
                 if (appointementsLength !== 0){
                     if (appointementsLength <= myAppointements.length){
                         sethasMore(false)
                     }
                 }
+
                 doctorsData.map((data:MyAppointementDataTypes) => {
 
                 if (myAppointements.some(elem => elem.id === data.id)){

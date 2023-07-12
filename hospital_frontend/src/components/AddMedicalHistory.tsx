@@ -126,7 +126,6 @@ export default function AddMedicalHistory(){
     }
 
     let td = new Date()
-    //let todatTime = `${td.getHours()}:${td.getMinutes()}`
     let todatTime = `${td.getHours().toString().length === 1 ? "0" + td.getHours(): td.getHours()}:${td.getMinutes().toString().length === 1 ? "0" + td.getMinutes(): td.getMinutes()}`
 
     const sendRequestMedHistory = async () => {
@@ -211,15 +210,8 @@ export default function AddMedicalHistory(){
             <input type="date" className="MedHistoryContainerDiv__input" placeholder="Birth day" name="birthDate" onChange={handleValueChange} value={medicalHistoryInputs.birthDate}/>
             <textarea id="" className="MedHistoryContainerDiv__textarea" placeholder="Medical Information" minLength={1} maxLength={7000} name="medInfo" onChange={handleValueChange} value={medicalHistoryInputs.medInfo}>
             </textarea>
-
-            {/* <div className={displayNavbar ? "errMessageDiv": "errMessageDivLeft"}> */}
                 <h3 style={appontementState.styles} className="errMessage">{ appontementState.message }</h3>
-            {/* </div> */}
-
-            {/* <div style={}> */}
-                {displayUpdateRequest &&  <h3>Send request to update the medical history <button onClick={sendRequestBtnText.text === "Send" ? sendRequestMedHistory: undefined} style={sendRequestBtnText.style} className="medHistUpdateRequestBtn">{sendRequestBtnText.text}</button></h3>}
-            {/* </div> */}
-
+                {displayUpdateRequest &&  <h3 className="sendUpdateRequestH1">Send request to update the medical history <button onClick={sendRequestBtnText.text === "Send" ? sendRequestMedHistory: undefined} style={sendRequestBtnText.style} className="medHistUpdateRequestBtn">{sendRequestBtnText.text}</button></h3>}
             <button onClick={addData} className={displayNavbar ? "addMedHistoryBtn": "addMedHistoryBtnLeft"}>Add</button>
         </div>
     )

@@ -8,7 +8,6 @@ import { reinitializeDate } from "../features/dateAndTimeSlice"
 import { updateDoctorsPage } from "../features/updatedDoctorsPageSlice"
 import { useDispatch } from "react-redux"
 import { removeAppointementInfo } from "../features/appointementInfoSlice"
-// import { ErrorMessage } from "./DeleteAccountForm"
 
 interface DoctorDataTypes {
     firstName: string,
@@ -53,7 +52,6 @@ export default function DoctorsPage(){
         speciality: ""
     })
     const updated:boolean = useSelector((state:RootState) => state.updatedDoctorsPage.updated)
-
 
     const dispatch = useDispatch()
     const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
@@ -120,7 +118,6 @@ export default function DoctorsPage(){
 
     
     const postAppointementData = async () => {
-        // if (appontementState.passwordInputAppointement){
         if (appointementInfo.doctorName !== ""){
         await fetch("http://127.0.0.1:8000/add_appointement", {
             method: "POST",
@@ -129,14 +126,12 @@ export default function DoctorsPage(){
                 'X-CSRFToken': csrf_token
             },
             body: JSON.stringify({
-                    // patientName: appointementInfo.patientName,
                     doctorName: doctorData.firstName,
                     doctorLastName: doctorData.lastName,
                     doctorEmail: doctorData.email,
                     patientName: appointementInfo.patientName,
                     patientLastName: appointementInfo.patientLastName,
                     patientEmail: appointementInfo.patientEmail,
-                    // patientID: appointementInfo.patientID,
                     doctorId: appointementInfo.doctorId,
                     weekDay: appointementInfo.weekDay, 
                     appintementDate: appointementInfo.appintementDate,
@@ -145,7 +140,6 @@ export default function DoctorsPage(){
                 })
             })
             .then(response =>  {
-                    // setPasswordInputAppointement("")
                     setAppontementState(prevState => {
                         return{
                             ...prevState,
@@ -169,8 +163,6 @@ export default function DoctorsPage(){
             dispatch(updateDoctorsPage())
             dispatch(removeAppointementInfo())
         }
-        // }
-
     }
 
     return(
@@ -181,7 +173,6 @@ export default function DoctorsPage(){
                 <h2>Email: { doctorData.email }</h2>
                 <h2>Phone Number: { doctorData.phoneNumber }</h2>
                 <h2>{ doctorData.speciality }</h2> 
-
                 <br />
 
                 </div>

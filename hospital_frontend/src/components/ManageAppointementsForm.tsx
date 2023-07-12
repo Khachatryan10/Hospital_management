@@ -43,7 +43,7 @@ export default function ManageAppointementsForm():JSX.Element{
     useEffect(() => {
         const getCsrfToken = getCookie('csrftoken');
         setCsrf_token(getCsrfToken ? getCsrfToken: "")
-    },[]) // add dependancy
+    },[])
 
     const clickUpdateSchedule = async () => {
         await fetch("http://127.0.0.1:8000/update_appointement", {
@@ -128,9 +128,11 @@ export default function ManageAppointementsForm():JSX.Element{
 
             <div className={displayNavbar ? "errMessageDiv": "errMessageDivLeft"}>
                 <h3 style={appontementState.styles} className="errMessage">{ appontementState.message }</h3>
+                <br />
+                <br />        
+                <p className="prgInfo">If the time is marked red (busy) and you change it to working day or not working day the appointement will be removed</p>
             </div>
 
-            <p className={displayNavbar ? "prgInfo": "prgInfoLeft"}>If the time is marked red (busy) and you change it to working day or not working day the appointement will be removed</p>
             <button onClick={clickUpdateSchedule} className={displayNavbar ? "confirmUpdateBtn": "confirmUpdateBtnLeft"}>Confirm</button>
         </>
     )

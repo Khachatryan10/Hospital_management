@@ -85,8 +85,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             "speciality": self.speciality
         }
 
-# couldn't add foreign key user then serialize that's why changeed to charfields
-
 class Schedule(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     doctor_name = models.CharField(max_length=64)

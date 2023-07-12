@@ -284,6 +284,8 @@ const [passwordChangeStyleAndMessage, setpasswordChangeStyleAndMessage] = useSta
             </div>
         <div className={displayNavbar ? "profileDiv": "profileDivLeft"}>
                 <>
+                <br />
+                <br />
                     <h2 className="profileDiv__h2">Change Password</h2>
                     <input type="password" className="profileDiv__input" value={passwordChange.oldPassword} onChange={handleInputChange} name="oldPassword" placeholder="old password" />
                     <input type="password" className="profileDiv__input" value={passwordChange.newPassword} onChange={handleInputChange} name="newPassword" placeholder="new password" />
@@ -297,6 +299,7 @@ const [passwordChangeStyleAndMessage, setpasswordChangeStyleAndMessage] = useSta
 
             <div className="profileDiv__deleteAccountDiv">
                 <p className="profileDiv__deleteWorningPrg">If you delete your account all appointments, medical history etc will be removed permanently</p>
+                <p className="profileDiv__deleteWorningPrg">If you delete your account all your information will be removed permanently</p>
                 <button className="profileDiv__deleteAccountBtn" onClick={handleClickDeleteDisplay}>Delete Account</button>
             </div>
         </div>
