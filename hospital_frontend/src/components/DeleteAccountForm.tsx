@@ -1,10 +1,10 @@
 import { deleteDivDisplay } from "../features/pageStateSlice"
 import { useDispatch, useSelector } from "react-redux"
-import getCookie from "../csrf/csrf_token"
 import { useEffect, useState } from "react"
 import { RootState } from "../app/store"
 import { useNavigate } from "react-router-dom"
 import { updataAuthentication } from "../features/userInfoSlice"
+import { CsrfTokenDataType } from "./RegisterForm"
 
 
 interface ErrorMessageStyleTypes {
@@ -43,9 +43,12 @@ export default function DeleteAccountForm(){
     })
 
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
-    },[authenticate])
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+        )},[authenticate])
 
     const deleteAccount = async () => {
         await fetch("http://127.0.0.1:8000/delete_account/request", {

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
-import getCookie from "../csrf/csrf_token"
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
-
 
 interface LoginInputTypes {
     name: string,
@@ -17,14 +15,57 @@ interface LoginInputTypes {
     confirmation: string
 }
 
+interface PasswordStylesTypes{
+    width: string,
+    height: string,
+    marginTop: string,
+    marginBottom: string,
+    backgroundColor: string,
+    maxWidth: string,
+    display: string,
+    transition: string,
+    borderRadius: string,
+}
+
+interface PrgStyleTypes {
+    marginTop: string,
+    width: string,
+    transition: string,
+    display: string,
+    color: string
+}
+
+interface RegisterStyleTypes {
+    color: string,
+    textalign: string,
+    height: string,
+    marginLeft: string,
+    marginRight: string,
+    Visibility: string,
+}
+
+interface RegisterMessageTypes {
+    styles: RegisterStyleTypes,
+    message: string,
+}
+
+export interface CsrfTokenDataType {
+    csrf_token: string
+}
+
 export default function RegisterForm():JSX.Element {
     const authenticate = useSelector((state:RootState) => state.userInformation.authenticated)
     const [csrf_token, setCsrf_token] = useState<string>("")
 
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+        )
     },[authenticate])
+
 
     const [registerInputs, setRegisterInputs] = useState<LoginInputTypes>({
         "name": "",
@@ -38,19 +79,6 @@ export default function RegisterForm():JSX.Element {
         "confirmation": "",
 })
 
-
-interface PasswordStylesTypes{
-    width: string,
-    height: string,
-    marginTop: string,
-    marginBottom: string,
-    backgroundColor: string,
-    maxWidth: string,
-    display: string,
-    transition: string,
-    borderRadius: string,
-}
-
 const [passwordChecker, setPasswordChecker] = useState<PasswordStylesTypes>({
     width: "100%",
     height: "",
@@ -62,14 +90,6 @@ const [passwordChecker, setPasswordChecker] = useState<PasswordStylesTypes>({
     transition: "1s",
     borderRadius: "5px",
 })
-
-interface PrgStyleTypes {
-    marginTop: string,
-    width: string,
-    transition: string,
-    display: string,
-    color: string
-}
 
 const [prgStyle, setPrgStyle] = useState<PrgStyleTypes>({
     marginTop: "0",
@@ -89,19 +109,6 @@ const {name, lastName, email, phoneNumber, password, confirmation, role} = regis
 const numberFormatRegex = /[0][0-9]{1}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}$/.test(phoneNumber)
 const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email)
 
-interface RegisterStyleTypes {
-    color: string,
-    textalign: string,
-    height: string,
-    marginLeft: string,
-    marginRight: string,
-    Visibility: string,
-}
-
-interface RegisterMessageTypes {
-    styles: RegisterStyleTypes,
-    message: string,
-}
 
 const [registerMessage, setRegisterMessage] = useState<RegisterMessageTypes>({
     styles:{
@@ -205,6 +212,7 @@ useEffect(() => {
     },[confirmation, email, emailRegex, lastName, name, numberFormatRegex, password, phoneNumber])
 
     const navigate = useNavigate()
+
     const registerUser = async(): Promise<void> => {
 
             if (!name || !lastName || !email || !phoneNumber || !password || !confirmation){
@@ -327,7 +335,6 @@ useEffect(() => {
                     <option value="Hematologist">Hematologist</option>
                     <option value="Psychiatrist">Psychiatrist</option>
                 </select>}
-
 
                 <input type="tel" className="registerDiv__input" value={registerInputs.phoneNumber} onChange={handleInputChange} name="phoneNumber"  placeholder="phone number 0X-XX-XX-XX-XX" />
                 <input type="password" className="registerDiv__input" value={registerInputs.password} onChange={handleInputChange} name="password" placeholder="password" />

@@ -3,11 +3,11 @@ import { useSelector } from "react-redux"
 import { useParams } from "react-router-dom"
 import { RootState } from "../app/store"
 import ScheduleForm from "./ScheduleForm"
-import getCookie from "../csrf/csrf_token"
 import { reinitializeDate } from "../features/dateAndTimeSlice"
 import { updateDoctorsPage } from "../features/updatedDoctorsPageSlice"
 import { useDispatch } from "react-redux"
 import { removeAppointementInfo } from "../features/appointementInfoSlice"
+import { CsrfTokenDataType } from "./RegisterForm"
 
 interface DoctorDataTypes {
     firstName: string,
@@ -112,8 +112,12 @@ export default function DoctorsPage(){
     const appointementInfo = useSelector((state:RootState) => state.appointementInfo)
     
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+        )  
     },[appointementInfo, updated])
 
     

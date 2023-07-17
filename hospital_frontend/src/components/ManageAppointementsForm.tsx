@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import ScheduleForm from "./ScheduleForm"
 import { RootState } from "../app/store";
 import { useEffect, useRef, useState } from "react";
-import getCookie from "../csrf/csrf_token"
 import { updateDoctorsSchedule } from "../features/updateDoctorsSchedule";
 import { removeDate } from "../features/updateAppointementsSlice";
 import { appontementStateTypes } from "./DoctorsPage";
+import { CsrfTokenDataType } from "./RegisterForm";
 
 export default function ManageAppointementsForm():JSX.Element{
     const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
@@ -41,9 +41,12 @@ export default function ManageAppointementsForm():JSX.Element{
     }
 
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
-    },[])
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+    )},[])
 
     const clickUpdateSchedule = async () => {
         await fetch("http://127.0.0.1:8000/update_appointement", {

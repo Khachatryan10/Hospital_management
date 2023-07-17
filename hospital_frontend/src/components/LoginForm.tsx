@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
-import getCookie from "../csrf/csrf_token"
 import { useDispatch } from "react-redux/es/hooks/useDispatch";
 import { updataAuthentication } from "../features/userInfoSlice";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../app/store";
+import { CsrfTokenDataType } from "./RegisterForm";
 
 interface loginInputsTypes {
     email: string,
@@ -31,8 +31,12 @@ export default function LoginForm():JSX.Element {
     const [csrf_token, setCsrf_token] = useState<string>("")
 
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+        )  
     },[authenticate])
 
     const [loginInputs, setLoginInputs] = useState<loginInputsTypes>({

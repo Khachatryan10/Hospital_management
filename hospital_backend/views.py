@@ -7,11 +7,11 @@ from django.contrib.auth import authenticate, login, logout, update_session_auth
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
 import json
-from datetime import date, timedelta, datetime
+from datetime import date, timedelta
 import re
 from dotenv import load_dotenv
 import os
-from django.db.models.functions import Concat
+from django.middleware import csrf
 
 # Create your views here.
 
@@ -19,6 +19,10 @@ load_dotenv()
 
 def reregisterUser(request):
     return render(request, "index.html")
+
+def get_csrf_token(request):
+    csrf_token = csrf.get_token(request)
+    return JsonResponse({"csrf_token": csrf_token})
 
 def registerUserPost(request):
     if request.method == "POST":
@@ -57,7 +61,7 @@ def registerUserPost(request):
         if role == "Doctor" and not speciality:
             return HttpResponse("Select Speciality field", status=422)
 
-        """ if user selects role Doctor then selects sepciality,
+        """ if user selects role Doctor then selects speciality,
         but switches to register as patient the selected value remains. 
         Since patients must not have speciality (it's only for doctors), 
         if this happens speciality will be set to an empty string. """
@@ -527,10 +531,6 @@ def save_notification(request):
     else:
         return HttpResponse("This url is only for POST requests")
 
-# def notifs(request):
-#     n = Notification.objects.all()
-#     return JsonResponse([data.serialize() for data in n], safe=False)
-
 def refuse_med_history_update(request, id):
     if request.method == "POST":
         try: 
@@ -597,7 +597,6 @@ def update_med_history(request, patient_email):
                 mh.patient_birth_date = birth_date
 
             mh.save()
-            
             n = Notification.objects.get(id=notification_id)
             n.delete()
 
@@ -606,8 +605,6 @@ def update_med_history(request, patient_email):
             return HttpResponse(status=403)
     else:
         return HttpResponse("This url is only for PUT requests")
-
-# for D3 JS create a view which will return all appointement for the mentioned date of today, tomorrow etc until 10 days
 
 def char_bar_info(request):
     today = date.today()
@@ -625,3 +622,6 @@ def char_bar_info(request):
         doctor_email=request.user.email, date=days[i])
         data.append({"date": days[i], "count": schedule_info.count(), "week_day": week_days[int(w)], "day_month": f"{months[int(m) - 1]} {d}"})
     return JsonResponse(data, safe=False)
+
+# IMPORTANT
+# add then when delete account delete all medhistory appointements etc

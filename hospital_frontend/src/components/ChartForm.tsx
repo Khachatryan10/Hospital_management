@@ -23,7 +23,7 @@ export default function ChartForm() {
     const [data, setData] = useState<ChartBarDataTypes[]>([]);
     const [windowWidth, setWindowWidth] = useState<number>(window.innerWidth)
 
-    const initialSate = {
+    const initialState = {
         w: 650,
         h: 400,
         rectW: 55,
@@ -31,7 +31,7 @@ export default function ChartForm() {
         textFontSize: "15px"
     }
 
-    const [responsiveSize, setResponsiveSize] = useState<ResponsiveSizeI>(initialSate)
+    const [responsiveSize, setResponsiveSize] = useState<ResponsiveSizeI>(initialState)
 
     useEffect(() => {
         fetch("http://127.0.0.1:8000/char_bar_info")
@@ -75,10 +75,10 @@ export default function ChartForm() {
         }
 
         else {
-            setResponsiveSize(initialSate)
+            setResponsiveSize(initialState)
         }
 
-    },[windowWidth])
+    },[data, windowWidth])
 
     const svgRef = useRef<SVGSVGElement | null>(null)
 

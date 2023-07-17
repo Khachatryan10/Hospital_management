@@ -6,7 +6,6 @@ interface appointementInfoTypes {
     doctorLastName: string,
     patientLastName: string,
     patientEmail: string,
-    // patientID: string,
     doctorEmail:string,
     weekDay:string,
     doctorId: string,
@@ -20,14 +19,12 @@ const initialState: appointementInfoTypes = {
     doctorLastName: "",
     patientLastName: "",
     patientEmail: "",
-    // patientID: "",
     doctorEmail: "",
     weekDay: "",
     doctorId: "",
     appintementDate: "",
     appintementTime: ""
 }
-
 
 export const appointementInfoSlice = createSlice({
     name: "appointementInfo",
@@ -40,7 +37,6 @@ export const appointementInfoSlice = createSlice({
             state.patientLastName = actions.payload.patientLastName;
             state.patientEmail = actions.payload.patientEmail;
             state.doctorEmail = actions.payload.doctorEmail;
-            // state.patientID = actions.payload.patientID;
             state.weekDay = actions.payload.weekDay;
             state.doctorId = actions.payload.doctorId;
             state.appintementDate = actions.payload.appintementDate;
@@ -54,7 +50,6 @@ export const appointementInfoSlice = createSlice({
                 state.patientLastName = "";
                 state.patientEmail = "";
                 state.doctorEmail = "";
-                // state.patientID = "";
                 state.weekDay = "";
                 state.doctorId = "";
                 state.appintementDate = "";

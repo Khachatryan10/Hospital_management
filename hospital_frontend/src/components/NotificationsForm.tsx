@@ -1,11 +1,11 @@
 import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../app/store"
 import { useEffect, useState } from "react"
-import getCookie from "../csrf/csrf_token"
 import { useNavigate } from "react-router-dom"
 import { addNotificationData, removeNotificationData, updateNotificationSeen } from "../features/notificationsSlice"
 import { NotificationsDataTypes } from "../features/notificationsSlice"
 import NothingYetForm from "./NothingYetForm"
+import { CsrfTokenDataType } from "./RegisterForm"
 
 export default function NotificationsForm(): JSX.Element {
     const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
@@ -29,8 +29,12 @@ export default function NotificationsForm(): JSX.Element {
     console.log(notificationData)
 
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+        )  
     },[])
 
     const navigate = useNavigate()

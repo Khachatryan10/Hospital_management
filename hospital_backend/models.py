@@ -3,9 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.utils import timezone
 import uuid
 
-
-# Create your models here.
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, phone_number, password, **extra_fields):
         if not email:
@@ -135,9 +132,7 @@ class MedicalHistory(models.Model):
             "patient_birth_date": self.patient_birth_date,
             "medical_information": self.medical_information
         }
-    
-    # Whe ndoctor updates the med history delete notif as sent
-    
+        
 class Notification(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     sender = models.CharField(max_length=80)
@@ -163,5 +158,3 @@ class Notification(models.Model):
             "time": self.time,
             "seen": self.seen
         }
-
-

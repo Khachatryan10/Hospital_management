@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
-import getCookie from "../csrf/csrf_token"
 import UserInfoTypes from "../features/userInfoSlice"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
 import { deleteDivDisplay } from "../features/pageStateSlice"
+import { CsrfTokenDataType } from "./RegisterForm"
 
 interface PasswordTypes {
     oldPassword: string
@@ -151,8 +151,12 @@ const [passwordChangeStyleAndMessage, setpasswordChangeStyleAndMessage] = useSta
     },[newPassword, newPasswordConfirmation])
 
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+        )    
     },[authenticate])
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>):void => {

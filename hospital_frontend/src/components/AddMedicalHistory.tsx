@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react"
-import getCookie from "../csrf/csrf_token"
 import UserInfoTypes from "../features/userInfoSlice"
 import { useSelector } from "react-redux"
 import { RootState } from "../app/store"
 import { appontementStateTypes } from "./DoctorsPage"
 import { todayDate } from "../features/dateAndTimeSlice"
+import { CsrfTokenDataType } from "./RegisterForm"
 
 interface MedicalHistoryInputsTypes {
     [key :string]: string
@@ -75,9 +75,12 @@ export default function AddMedicalHistory(){
     })
 
     useEffect(() => {
-        const getCsrfToken = getCookie('csrftoken');
-        setCsrf_token(getCsrfToken ? getCsrfToken: "")
-    },[])
+        fetch("http://127.0.0.1:8000/get_csrf_token")
+            .then(response => response.json())
+            .then((data:CsrfTokenDataType) => {
+                setCsrf_token(data.csrf_token)
+            }
+        )},[])
 
 
     const addData = async () => {

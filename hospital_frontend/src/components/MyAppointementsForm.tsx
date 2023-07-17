@@ -19,7 +19,7 @@ export interface MyAppointementDataTypes {
 }
 
 export default function MyAppointementsForm(): JSX.Element {
-    const [myAppointements, setmyAppointements] = useState<MyAppointementDataTypes[]>([])
+    const [myAppointements, setMyAppointements] = useState<MyAppointementDataTypes[]>([])
     const displayNavbar:boolean = useSelector((state:RootState) => state.pageState.displayNavbar)
     const userInfo:UserInfoTypes = useSelector((state:RootState) => state.userInformation)
     const [num, setNum] = useState<number>(12)
@@ -34,7 +34,7 @@ export default function MyAppointementsForm(): JSX.Element {
             .catch(err => console.log(err))
     },[])
 
-    const fetchAppointementsData = async () => {
+const fetchAppointementsData = async () => {
         setNum(prevNum => prevNum + 5)
         
         await fetch(`http://127.0.0.1:8000/my_appointements_data/${num}`)
@@ -52,7 +52,7 @@ export default function MyAppointementsForm(): JSX.Element {
                     if (appointementsLength <= myAppointements.length){
                         sethasMore(false)
                     }
-                }
+                
 
                 doctorsData.map((data:MyAppointementDataTypes) => {
 
@@ -60,9 +60,10 @@ export default function MyAppointementsForm(): JSX.Element {
                     return
                 }
 
-            setmyAppointements((prevState) => [...prevState, data])
+            setMyAppointements((prevState) => [...prevState, data])
 
             })
+            }
         }
 
         })
@@ -70,10 +71,11 @@ export default function MyAppointementsForm(): JSX.Element {
         .catch(error => console.log(error))
     }
 
+    console.log(myAppointements)
+
     useEffect(() => {
         fetchAppointementsData()
-    },[])
-
+    },[appointementsLength])
         
         return (
             <>            
