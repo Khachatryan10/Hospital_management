@@ -1,16 +1,13 @@
-from .models import Schedule, MedicalHistory, Notification
+from .models import Schedule, MedicalHistory, Notification,User, Schedule
 from django.shortcuts import render, HttpResponse
-from .models import User, Schedule
 from django.db.models import Q
 from django.db import IntegrityError
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
-import json
 from datetime import date, timedelta
-import re
+import re, os, json
 from dotenv import load_dotenv
-import os
 from django.middleware import csrf
 
 # Create your views here.
@@ -173,6 +170,16 @@ def delete_account(request):
 
         if user is not None:
             user.delete()
+
+            s = Schedule.objects.filter(Q(patient_email=request.user.email) | Q(doctor_email=request.user.email))
+            s.delete()
+
+            mh = MedicalHistory.objects.filter(Q(patient_email=request.user.email) | Q(doctor_email=request.user.email))
+            mh.delete()
+            
+            n = Notification.objects.filter(Q(sender=request.user.email) | Q(receiver=request.user.email))
+            n.delete()
+
             return HttpResponse("Account sucessfully deleted")
     else:
         return HttpResponse("This url is only for DELETE requests")
@@ -622,6 +629,3 @@ def char_bar_info(request):
         doctor_email=request.user.email, date=days[i])
         data.append({"date": days[i], "count": schedule_info.count(), "week_day": week_days[int(w)], "day_month": f"{months[int(m) - 1]} {d}"})
     return JsonResponse(data, safe=False)
-
-# IMPORTANT
-# add then when delete account delete all medhistory appointements etc
