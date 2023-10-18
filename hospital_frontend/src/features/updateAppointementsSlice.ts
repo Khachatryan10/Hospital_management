@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 interface updateAppointementDataTypes{
     id: string,
-    // patient_email: string,
     date: string,
     time: string,
     weekDay: string
