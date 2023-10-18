@@ -14,7 +14,6 @@ function App() {
     <div >
       {logoutDisplay && <LogoutForm/>}
       {deleteAccountDisplay && <DeleteAccountForm />}
-      {/* <VerticalNavbar /> */}
       {authenticated && <VerticalNavbar />}
       <NavBar />
     </div>
