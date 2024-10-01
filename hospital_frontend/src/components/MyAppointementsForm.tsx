@@ -70,8 +70,12 @@ const fetchAppointementsData = async () => {
 
         .catch(error => console.log(error))
     }
+<<<<<<< HEAD
 
 
+=======
+    
+>>>>>>> fe6f72ac8775d51b28d26266f4280c8ec60c353e
     useEffect(() => {
         fetchAppointementsData()
     },[appointementsLength])
