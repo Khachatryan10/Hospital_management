@@ -107,6 +107,7 @@ export default function CurrentNotificationForm(): JSX.Element {
                 if (!response.ok){
                     console.log("Something went wrong")
                 }
+            
                 else {
                     return navigate("/notifications")
                 }

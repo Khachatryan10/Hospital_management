@@ -51,6 +51,7 @@ export default function DoctorsPage(){
         phoneNumber: "",
         speciality: ""
     })
+    
     const updated:boolean = useSelector((state:RootState) => state.updatedDoctorsPage.updated)
 
     const dispatch = useDispatch()

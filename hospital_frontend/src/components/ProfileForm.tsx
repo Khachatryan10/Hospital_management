@@ -303,7 +303,6 @@ const [passwordChangeStyleAndMessage, setpasswordChangeStyleAndMessage] = useSta
 
             <div className="profileDiv__deleteAccountDiv">
                 <p className="profileDiv__deleteWorningPrg">If you delete your account all appointments, medical history etc will be removed permanently</p>
-                <p className="profileDiv__deleteWorningPrg">If you delete your account all your information will be removed permanently</p>
                 <button className="profileDiv__deleteAccountBtn" onClick={handleClickDeleteDisplay}>Delete Account</button>
             </div>
         </div>

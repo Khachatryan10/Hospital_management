@@ -71,7 +71,6 @@ const fetchAppointementsData = async () => {
         .catch(error => console.log(error))
     }
 
-    console.log(myAppointements)
 
     useEffect(() => {
         fetchAppointementsData()

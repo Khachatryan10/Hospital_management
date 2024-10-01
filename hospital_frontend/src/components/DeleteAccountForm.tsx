@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom"
 import { updataAuthentication } from "../features/userInfoSlice"
 import { CsrfTokenDataType } from "./RegisterForm"
 
-
 interface ErrorMessageStyleTypes {
     height: string,
     fontSize: string,

@@ -75,8 +75,8 @@ export default function NavBar():JSX.Element  {
     }
 
     const handleDisplayNavbar = () => {
-            dispatch(clickedToToggle(true))
-            dispatch(toggleNavbarDisplay())
+        dispatch(clickedToToggle(true))
+        dispatch(toggleNavbarDisplay())
     }
 
     return(

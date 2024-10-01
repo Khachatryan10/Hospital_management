@@ -156,7 +156,6 @@ useEffect(() => {
     }
 
     useEffect(() => {
-        
             if (phoneNumber && !numberFormatRegex){
                 setRegisterMessage(prevState => {
                     return{
